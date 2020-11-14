@@ -1,0 +1,15 @@
+@value md from './variables.module.css';
+
+html {
+    font-size: 14px;
+}
+/*body {
+    font-size: 1rem !important;
+}*/
+
+@media (min-width: md) {
+    html {
+        font-size: 16px;
+    }
+}
+

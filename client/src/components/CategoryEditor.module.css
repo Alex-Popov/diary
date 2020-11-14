@@ -1,0 +1,42 @@
+
+/* preview */
+
+.preview {
+    margin-top: 14px;
+    position: relative;
+    height: 150px;
+    padding: 1rem 2rem 0;
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+}
+.previewLabel {
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* palette buttons */
+
+.paletteButtonsSection {
+    background-color: #f0f1f5;
+}
+.button {
+    min-height: 2rem;
+}
+
+
+/* palette colors */
+
+.paletteSection {
+    padding: 2px 1px;
+    -ms-flex: 0 0 11.111111%;
+    flex: 0 0 11.111111%;
+    max-width: 11.111111%;
+}
+.paletteColor {
+    height: 18px;
+    cursor: pointer;
+    margin: 1px 0;
+}

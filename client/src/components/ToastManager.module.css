@@ -1,0 +1,28 @@
+@value colorBorder from '../theme/variables.module.css';
+
+
+.position {
+    position: fixed;
+    z-index: 1400;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 600px;
+    width: 100%;
+    pointer-events: none;
+}
+.position > * {
+    pointer-events: auto;
+}
+
+.container {
+    padding: 1rem;
+}
+.container > * + * {
+    margin-top: 5px !important;
+}
+
+
+.clearButton {
+    background-color: #fff !important;
+}

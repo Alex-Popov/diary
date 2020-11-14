@@ -1,0 +1,46 @@
+'use strict';
+
+const config = require('config');
+const http = require('http');
+const logger = require('logger');
+const app = require('../app');
+
+//
+// DB Init
+//
+if (process.argv.slice(2).includes('--db-init')) {
+    require('../db/init')();
+}
+
+
+//
+// Create HTTP server.
+//
+const server = http.createServer(app);
+
+// listening
+server.listen(config.PORT, () => {
+    logger.info('Listening on port '+ server.address().port);
+});
+
+// server errors handler
+server.on('error', (error) => {
+    if (error.syscall !== 'listen') {
+        logger.error(error);
+    }
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            logger.error('Port '+ server.address().port +' requires elevated privileges');
+            break;
+        case 'EADDRINUSE':
+            logger.error('Port '+ server.address().port +' is already in use');
+            break;
+        default:
+            logger.error(error);
+    }
+
+    // exit
+    process.exit(1);
+});

@@ -1,0 +1,48 @@
+@value colorBorder from '../theme/variables.module.css';
+@value md from '../theme/variables.module.css';
+@value xl from '../theme/variables.module.css';
+@value height from '../components/Header.module.css';
+
+
+.sidebarLeft,
+.sidebarRight {
+    border-top: 1px solid colorBorder;
+}
+.sidebarRightWidth {
+    width: 100%;
+}
+
+@media (min-width: md) {
+    .sidebarLeft {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 1000;
+
+        outline: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-top: height;
+        border-right: 1px solid colorBorder;
+    }
+}
+
+@media (min-width: xl) {
+    .sidebarRight {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        z-index: 1000;
+
+        outline: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-top: height;
+        border-left: 1px solid colorBorder;
+    }
+    .sidebarRightWidth {
+        width: 30%;
+    }
+}

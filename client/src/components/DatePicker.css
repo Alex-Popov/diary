@@ -1,0 +1,98 @@
+/*@value colorTextPrimary from '../theme/variables.module.css';
+@value colorTextSecondary from '../theme/variables.module.css';*/
+
+
+.react-datepicker {}
+.react-datepicker__month-container {}
+
+.react-datepicker__header {
+    padding-bottom: .5rem;
+}
+
+/* grid */
+
+.react-datepicker__day-names,
+.react-datepicker__week {
+    display: flex;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+.react-datepicker__day-names > *,
+.react-datepicker__week > * {
+    width: 14%;
+}
+
+/* days of week */
+
+.react-datepicker__day-names {
+    margin-top: 1rem;
+    color: rgba(0, 0, 0, 0.54);
+    text-align: center;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+}
+
+
+/*
+ * Days
+ */
+
+.react-datepicker__month {
+    text-align: center;
+}
+
+.react-datepicker__week {}
+
+.react-datepicker__day {
+    position: relative;
+    line-height: 1rem;
+    padding: calc((14% - 1rem) / 2) 0;
+    cursor: pointer;
+    outline: none !important;
+    border-radius: 50%;
+}
+
+/* selection */
+
+.react-datepicker__day--in-range,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day:not(.react-datepicker__day--disabled):hover {
+    /*background-color: rgba(0, 0, 0, 0.04);*/
+    background-color: rgba(63, 81, 181, 0.1);
+}
+
+/* states */
+
+.react-datepicker__day--disabled {
+    cursor: default !important;
+}
+.react-datepicker__day--disabled,
+.react-datepicker__day--outside-month {
+    opacity: .4;
+}
+.react-datepicker__day--weekend {}
+.react-datepicker__day--today {}
+
+
+.react-datepicker__day--selected,
+.react-datepicker__day--range-start,
+.react-datepicker__day--range-end {
+    font-weight: normal !important;
+    color: #fff !important;
+    background-color: rgb(63, 81, 181) !important;
+}
+
+/* workaround safari bug */
+.react-datepicker__day--highlighted::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    border-radius: 50%;
+    display: block;
+    box-shadow: 0 0 0 2px rgba(63, 81, 181, .2);
+}

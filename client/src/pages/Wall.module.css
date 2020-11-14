@@ -1,0 +1,30 @@
+@value colorBackgroundDefault from '../theme/variables.module.css';
+@value lg from '../theme/variables.module.css';
+@value height from '../components/Header.module.css';
+
+.width {
+    width: 100%;
+}
+.sidebarPost {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: 10000;
+
+    outline: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    background-color: colorBackgroundDefault;
+}
+
+@media (min-width: lg) {
+    .width {
+        width: calc(100% - 30% - 320px);
+    }
+    .sidebarPost {
+        padding-top: height;
+        z-index: 1000;
+    }
+}

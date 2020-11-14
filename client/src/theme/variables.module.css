@@ -1,0 +1,42 @@
+
+/* match to Bootstrap margin/padding breakpoints */
+
+@value sm: 576px;
+@value md: 768px;
+@value lg: 992px;
+@value xl: 1200px;
+
+@value p1: 0.25rem;
+@value p2: 0.5rem;
+@value p3: 1rem;
+@value p4: 1.5rem;
+@value p5: 3rem;
+
+@value p1n: -0.25rem;
+@value p2n: -0.5rem;
+@value p3n: -1rem;
+@value p4n: -1.5rem;
+@value p5n: -3rem;
+
+/*
+ * Colors
+ */
+
+@value colorPrimary: #3f51b5;
+@value colorSecondary: #f50057;
+
+@value colorInfo: #2196f3;
+@value colorWarning: #ffd138;
+@value colorError: #f44336;
+@value colorSuccess: #4caf50;
+
+@value colorTextPrimary: rgba(0, 0, 0, 0.87); /*#212121*/
+@value colorTextSecondary: rgba(0, 0, 0, 0.54); /*#757575*/
+@value colorTextDisabled: rgba(0, 0, 0, 0.38); /*#9e9e9e*/
+@value colorTextHint: rgba(0, 0, 0, 0.38);
+
+@value colorBackgroundDefault: #f6f7f9;
+@value colorBackgroundPrimary: #293241;
+
+@value colorBorder: rgba(0, 0, 0, 0.12); /*#e0e0e0*/
+

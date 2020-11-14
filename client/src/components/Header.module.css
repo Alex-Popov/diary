@@ -1,0 +1,12 @@
+@value height: calc(1.25rem + 24px + 6px);
+
+.bg {
+    background-color: #293241 !important;
+}
+.buttonActive {
+    background-color: #384354 !important;
+}
+
+.minHeight {
+    min-height: height;
+}
