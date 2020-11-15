@@ -1,14 +1,14 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { addErrorAlert } from '../store/alerts';
 import API from '../core/api';
 
-import css from './Post.module.css';
+//import css from './Post.module.css';
 
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
+//import Divider from '@material-ui/core/Divider';
+//import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import CategoryChipList from './CategoryChipList';
@@ -20,12 +20,8 @@ import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 
 
 
-function Post() {
+function Post({ id }) {
     const dispatch = useDispatch();
-//    let history = useHistory();
-
-    // editor state by context
-    let { id } = useParams();
 
     //
     // form state
@@ -45,7 +41,7 @@ function Post() {
         setLoading(true);
         API.post.getById(id)
             .then(data => {
-                console.log(data);
+//                console.log(data);
                 if (!data) {
                     dispatch(addErrorAlert('Invalid ID'));
                     return;
@@ -139,4 +135,4 @@ function Post() {
     return null;
 }
 
-export default Post;
+export default React.memo(Post);

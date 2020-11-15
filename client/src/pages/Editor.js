@@ -7,7 +7,6 @@ import {context} from '../context/AppContext';
 import API from '../core/api';
 
 import sidebarCss from '../components/Sidebar.module.css';
-import headerCss from '../components/Header.module.css';
 import css from './Editor.module.css';
 
 import DatePicker from '../components/DatePicker';

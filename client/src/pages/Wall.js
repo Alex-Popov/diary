@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import { Route } from 'react-router-dom';
+import React, {useCallback, useEffect, useState, useRef, useMemo} from 'react';
+import { useRouteMatch } from 'react-router-dom';
 
 import API from '../core/api';
 import css from './Wall.module.css';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import TuneRoundedIcon from "@material-ui/icons/TuneRounded";
 import Divider from '@material-ui/core/Divider';
@@ -15,44 +17,74 @@ import EmptyData from '../components/EmptyData';
 
 
 
-function Wall() {
+const toolbarIcon = <TuneRoundedIcon fontSize="small" />;
 
+function Wall() {
     // filters
     const [categories, setCategories] = useState([]);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [page, setPage] = useState(1);
-    // data
+
+    // list data
     const [posts, setPosts] = useState([]);
 
+    // view post state
+    let postRouteMatch = useRouteMatch({
+        path: '/post/:id',
+        exact: true
+    });
+    const postIdMemo = useMemo(() => (postRouteMatch && postRouteMatch.params.id), [postRouteMatch]);
 
+
+    //
     // get posts
-    useEffect(() => {
-        console.log('-- change filters --', categories, startDate, endDate);
-        const timeoutId = setTimeout(() => {
-            console.log('-- real call filters --');
-            API.post.getAllByFilter({
-                categories,
-                startDate,
-                endDate,
-                searchTerm,
-                page
+    //
+    const fetchData = useCallback(() => {
+        API.post.getAllByFilter({
+            categories,
+            startDate,
+            endDate,
+            searchTerm,
+            page
+        })
+            .then(data => {
+                console.log(data);
+                setPosts(data);
             })
-                .then(data => {
-                    console.log(data);
-                    setPosts(data);
-                })
-                .catch(error => {})
-        } , 1000);
+            .catch(() => {})
 
-        return () => clearInterval(timeoutId);
     }, [categories, startDate, endDate, searchTerm, page]);
+
+    const isFirstRun = useRef(true);
+    const theme = useTheme();
+    const minWidthLg = useMediaQuery(theme.breakpoints.up('lg'), {noSsr: true});
+    const skipFetchData = useMemo(() => !!(isFirstRun.current && !minWidthLg && postIdMemo), [postIdMemo, minWidthLg]);
+
+    useEffect(() => {
+        if (isFirstRun.current) {
+            isFirstRun.current = false;
+
+            if (skipFetchData) return;
+
+            fetchData();
+
+        } else {
+            const timeoutId = setTimeout(() => {
+                fetchData();
+            } , 1000);
+            return () => clearInterval(timeoutId);
+        }
+
+    }, [fetchData, skipFetchData]);
+
+
 
 
     return (<>
         <div className="d-flex no-gutters">
-            <Sidebar toolbarIcon={<TuneRoundedIcon fontSize="small" />}>
+            <Sidebar toolbarIcon={toolbarIcon}>
                 <FilterByDate
                     startDate={startDate}
                     onChangeStartDate={setStartDate}
@@ -75,13 +107,12 @@ function Wall() {
             </div>
         </div>
 
-        <Route path="/post/:id" exact>
+        {postIdMemo && (
             <div className={`${css.sidebarPost} ${css.width}`}>
-                <Post />
+                <Post id={postIdMemo} />
             </div>
-        </Route>
+        )}
     </>);
 }
-
 
 export default Wall;

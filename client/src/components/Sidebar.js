@@ -5,7 +5,6 @@ import IconButton from "@material-ui/core/IconButton";
 
 import { context } from "../context/AppContext";
 import css from './Sidebar.module.css';
-import headerCss from '../components/Header.module.css';
 import CheckIcon from '@material-ui/icons/Check';
 
 const useStyles = makeStyles((theme) => ({
