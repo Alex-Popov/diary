@@ -5,6 +5,20 @@ import { addErrorAlert } from '../store/alerts';
 
 
 
+class QueryError extends Error {
+    constructor(context, data, messages) {
+        super(messages.join('\n'));
+
+        this.name = 'QueryError';
+        this.stack = (new Error()).stack;
+
+        this.context = context
+        this.data = data;
+        this.messages = messages;
+    }
+}
+
+
 
 /**
  * Wrapper for native fetch() method
@@ -107,13 +121,11 @@ export const Query = (
                 }
 
                 // create error wrapper
-                throw {
-                    context: response,
-                    data: null,
-                    messages: [
-                        'Status: ' +response.status +(response.statusText && ', Message: '+response.statusText)
-                    ]
-                };
+                throw new QueryError(
+                    response,
+                    null,
+                    ['Status: ' +response.status +(response.statusText && ', Message: '+response.statusText)]
+                );
             }
         })
         //
@@ -136,11 +148,11 @@ export const Query = (
 
             } else {
                 // create error wrapper
-                throw {
-                    context: json,
-                    data: json.data,
-                    messages: (json.messages.length > 0 ? json.messages : ['API query error'])
-                };
+                throw new QueryError(
+                    json,
+                    json.data,
+                    (json.messages.length > 0 ? json.messages : ['API query error'])
+                );
             }
         })
         //
@@ -148,9 +160,10 @@ export const Query = (
         //
         .catch(error => {
             if (printErrorMessages) {
-                console.error('catch in query', error);
+                let {context, data, messages} = error;
+                console.error({context, data, messages});
 
-                error.messages.forEach(m => {
+                messages.forEach(m => {
                     store.dispatch(addErrorAlert(m));
                 });
             }

@@ -24,8 +24,8 @@ function Wall() {
     const [categories, setCategories] = useState([]);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [page, setPage] = useState(1);
+    const [searchTerm/*, setSearchTerm*/] = useState('');
+    const [page/*, setPage*/] = useState(1);
 
     // list data
     const [posts, setPosts] = useState([]);
