@@ -2,7 +2,7 @@
 
 const express = require('express');
 const { mustAuthenticated, bindDataToRes, isAdmin } = require('../utils');
-const { User } = require('db/schema');
+const { User } = require('db');
 
 
 

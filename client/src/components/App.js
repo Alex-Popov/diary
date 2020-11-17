@@ -11,6 +11,7 @@ import CategoryEditor from './CategoryEditor';
 import Profile from '../pages/Profile';
 import Editor from '../pages/Editor';
 import Wall from '../pages/Wall';
+import ExpiredSessionDialog from './ExpiredSessionDialog';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Router>
             <Header />
             <CategoryEditor />
+            <ExpiredSessionDialog />
 
             <Switch>
                 <Route path="/profile" exact component={Profile} />

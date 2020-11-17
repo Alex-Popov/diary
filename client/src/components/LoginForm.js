@@ -49,12 +49,14 @@ function LoginForm() {
                 margin="normal"
                 fullWidth
             />
+
             <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
                 disabled={disableSave}
+                className="mt-2"
             >
                 Login
             </Button>

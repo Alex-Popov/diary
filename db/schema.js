@@ -1,6 +1,6 @@
 'use strict';
 
-const { User } = require('./entities/user');
+const User = require('./entities/user');
 const Category = require('./entities/category');
 const Post = require('./entities/post');
 
@@ -8,6 +8,9 @@ const Post = require('./entities/post');
 //
 // Relations
 //
+
+
+// Category -> Category | one-to-many
 
 Category.hasMany(Category, {
     as: 'childCategories',
@@ -40,6 +43,8 @@ Category.belongsTo(Category, {
 */
 
 
+
+// Category <-> Post | many-to-many
 
 Category.belongsToMany(Post, {
     through: 'PostToCategory',
@@ -77,7 +82,7 @@ Post.belongsToMany(Category, {
 
 
 
-
+// User -> Category | one-to-many
 
 User.hasMany(Category, {
     as: 'categories',
@@ -111,6 +116,10 @@ Category.belongsTo(User, {
 .setOwner()
 .createOwner()
 */
+
+
+
+// User -> Post | one-to-many
 
 User.hasMany(Post, {
     as: 'posts',

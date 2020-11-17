@@ -3,7 +3,7 @@
 const express = require('express');
 const { OperationResults, mustAuthenticated, clientSessionWrapper, bindDataToRes } = require('../utils');
 const { authenticate, logout } = require('auth');
-const { User } = require('db/schema');
+const { User } = require('db');
 
 
 

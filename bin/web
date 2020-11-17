@@ -4,14 +4,7 @@ const config = require('config');
 const http = require('http');
 const logger = require('logger');
 const app = require('../app');
-const { sync } = require('db');
 
-//
-// DB Init
-//
-(async () => {
-    await sync();
-})();
 
 
 //

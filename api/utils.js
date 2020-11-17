@@ -1,7 +1,7 @@
 'use strict';
 
 const { authorizeMiddlewareFactory } = require('auth');
-const { ROLE_ADMIN } = require('db/entities/user');
+const { ROLE_ADMIN } = require('roles');
 const httpError = require('http-errors');
 
 

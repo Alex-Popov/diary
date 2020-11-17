@@ -117,6 +117,7 @@ export const Query = (
             } else {
                 // catch in request return 401
                 if (catchSessionExpiration && response.status === 401) {
+                    printErrorMessages = false;
                     store.dispatch(markSessionAsExpired());
                 }
 

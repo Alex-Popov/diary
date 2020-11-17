@@ -36,16 +36,14 @@ export const authReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case AUTH_SET_SESSION:
             return {
-                ...state,
+                ...INITIAL_STATE,
                 ...action.payload,
                 isAuthenticated: true
             };
 
         case AUTH_DESTROY_SESSION:
             return {
-                ...state,
-                ...EMPTY_SESSION,
-                isAuthenticated: false
+                ...INITIAL_STATE
             };
 
         case AUTH_MARK_SESSION_AS_EXPIRED:
@@ -89,4 +87,4 @@ export const selectSessionId = state => state.auth.sessionId;
 export const selectUserId = state => state.auth.userId;
 export const selectUserRole = state => state.auth.userRole;
 export const selectIsAuthenticated = state => state.auth.isAuthenticated;
-export const selectIsExpired = state => state.auth.isExpired;
+export const selectIsExpired = state => (state.auth.isAuthenticated && state.auth.isExpired);

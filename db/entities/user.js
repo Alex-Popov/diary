@@ -1,7 +1,11 @@
-const { sequelize, DataTypes } = require('db');
+'use strict';
+
+const sequelize = require('../sequelize');
+const DataTypes = require('../DataTypes');
 const { Model } = require('sequelize');
+
+const { ROLE_ADMIN, ROLE_USER } = require('roles');
 const bcrypt = require('bcrypt');
-const { ROLE_ADMIN, ROLE_USER } = require('../../client/src/roles');
 
 
 class User extends Model {
@@ -91,8 +95,4 @@ User.init({
     timestamps: false
 });
 
-module.exports = {
-    User,
-    ROLE_ADMIN,
-    ROLE_USER
-};
+module.exports = User;

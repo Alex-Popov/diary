@@ -3,7 +3,7 @@
 const express = require('express');
 const { Op } = require('sequelize');
 const { OperationResults, mustAuthenticated, promiseHandler, bindDataToRes, checkOwnerMiddlewareFactory } = require('../utils');
-const { Category, Post } = require('db/schema');
+const { Category, Post } = require('db');
 
 // permission checkers
 const checkOwnerPost = checkOwnerMiddlewareFactory(Post, req => req.body.id);
