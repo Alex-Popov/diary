@@ -144,7 +144,7 @@ function CategoryEditor() {
         })
             .then(() => {
                 dispatch(addSuccessAlert('Категория успешно сохранена'));
-                dispatch(loadCategories())
+                dispatch(loadCategories());
                 closeModal();
             })
             .catch(() => {})

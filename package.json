@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "web": "cross-env NODE_PATH=. node bin/web",
-    "web-db": "cross-env NODE_PATH=. node bin/web --db-init"
+    "db": "cross-env NODE_PATH=. node bin/db"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",

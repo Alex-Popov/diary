@@ -5,6 +5,7 @@ import { selectCategoriesSorted, selectLoading, loadCategories } from '../store/
 import { context } from '../context/AppContext';
 import API from '../core/api';
 import { hideLoading, showLoading } from '../store/loading';
+import {addErrorAlert, addSuccessAlert} from '../store/alerts';
 
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
@@ -39,7 +40,14 @@ function CategoriesManager() {
     const handleDelete = useCallback(id => () => {
         dispatch(showLoading());
         API.category.deleteById(id)
-            .then(() => dispatch(loadCategories()))
+            .then(count => {
+                if (count) {
+                    dispatch(addSuccessAlert('Категория успешно сохранена'));
+                    dispatch(loadCategories());
+                } else {
+                    dispatch(addErrorAlert('Ошибка при удалении категории'));
+                }
+            })
             .catch(() => {})
             .finally(() => dispatch(hideLoading()))
     }, [dispatch]);

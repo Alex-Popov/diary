@@ -1,0 +1,52 @@
+'use strict';
+
+const logger = require('logger');
+const { sequelize } = require('db');
+
+const { ROLE_ADMIN, ROLE_USER } = require('db/entities/user');
+const { User, Category, Post } = require('db/schema');
+
+
+(async () => {
+
+    try {
+        await sequelize.sync({force: true});
+
+        // users
+        const admin = await User.create({
+            username: 'admin',
+            password: 'admin',
+            role: ROLE_ADMIN
+        });
+        const user1 = await User.create({
+            username: 'user1',
+            password: '111',
+            role: ROLE_USER
+        });
+        // categories
+        let Eat = await Category.create({name: 'Еда', color: '#00ab00', ownerId: user1.id});
+        let Hobby = await Category.create({name: 'Хобби', color: '#8f4f0e', ownerId: user1.id});
+        let Sex = await Category.create({name: 'Секс', color: '#ec4949', ownerId: user1.id});
+        let Cars = await Category.create({name: 'Машины', color: '#303f9f', ownerId: admin.id});
+
+        await Eat.createPost({title: 'Торт с начинкой их слез твоих врагов', date:'2020-05-12', ownerId: user1.id});
+        await Eat.createPost({title: 'Хот Дог из кошки', body: 'Жуй!', date:'2020-04-21', ownerId: user1.id});
+        await Hobby.createPost({title: 'Милый бычок крючком с глазами', date:'2020-07-18', ownerId: user1.id});
+        await Hobby.createPost({title: 'Вязание с закрытыми глазами. Практика', date:'2020-10-01', ownerId: user1.id});
+        await Hobby.createPost({title: 'Примеры работ', date:'2020-05-12', ownerId: user1.id});
+        await Sex.createPost({title: 'Оргазм как у 18летней', date:'2020-07-12', ownerId: user1.id});
+
+        await Cars.createPost({title: 'Запердышы', date:'2020-11-12', ownerId: admin.id});
+        await Cars.createPost({title: 'Суперкары', date:'2020-11-12', ownerId: admin.id});
+        await Cars.createPost({title: 'Тачанки', date:'2020-11-11', ownerId: admin.id});
+
+        logger.info('All models were synchronized successfully.');
+
+    } catch (e) {
+        logger.error(e);
+    }
+
+    process.exit();
+})();
+
+

@@ -1,7 +1,7 @@
 const { sequelize, DataTypes } = require('db');
 const { Model } = require('sequelize');
 const bcrypt = require('bcrypt');
-const { ROLE_ADMIN, ROLE_USER } = require('../client/src/roles');
+const { ROLE_ADMIN, ROLE_USER } = require('../../client/src/roles');
 
 
 class User extends Model {
@@ -60,9 +60,6 @@ User.init({
             //this.setDataValue('changedBy', 1);
         }
     },
-    /*salt: {
-        type: DataTypes.STRING
-    },*/
     /*roleEnum: {
         type: DataTypes.ENUM([ROLE_ADMIN, ROLE_USER])
     },*/
