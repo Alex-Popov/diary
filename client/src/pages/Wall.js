@@ -7,7 +7,6 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import TuneRoundedIcon from "@material-ui/icons/TuneRounded";
-import Divider from '@material-ui/core/Divider';
 import Sidebar from '../components/Sidebar';
 import FilterByDate from '../components/FilterByDate';
 import SidebarCategories from '../components/SidebarCategories';
@@ -76,7 +75,6 @@ function Wall() {
             } , 1000);
             return () => clearInterval(timeoutId);
         }
-
     }, [fetchData, skipFetchData]);
 
 
@@ -85,13 +83,14 @@ function Wall() {
     return (<>
         <div className="d-flex no-gutters">
             <Sidebar toolbarIcon={toolbarIcon}>
-                <FilterByDate
-                    startDate={startDate}
-                    onChangeStartDate={setStartDate}
-                    endDate={endDate}
-                    onChangeEndDate={setEndDate}
-                />
-                <Divider />
+                <div className="px-4 py-3 b-b">
+                    <FilterByDate
+                        startDate={startDate}
+                        onChangeStartDate={setStartDate}
+                        endDate={endDate}
+                        onChangeEndDate={setEndDate}
+                    />
+                </div>
                 <SidebarCategories
                     categories={categories}
                     setCategories={setCategories}

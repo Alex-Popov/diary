@@ -45,28 +45,10 @@ export const Query = (
 ) => {
 
     //
-    // process Headers
-    //
-    let headers = new Headers();
-
-    // Content Type
-    headers.set('Content-Type', 'application/json');
-
-
-    // CSRF header
-    /*
-    let csrfHeaderName = document.querySelector('meta[name=_csrf_header]').content;
-    let csrfHeaderValue = document.querySelector('meta[name=_csrf]').content;
-
-    headers.set(csrfHeaderName, csrfHeaderValue);
-     */
-
-
-    //
     // process INIT
     //
-    let init = {
-        headers,
+    let options = {
+        headers: new Headers(),
         method
     };
 
@@ -84,8 +66,20 @@ export const Query = (
     //
     // process BODY for POST
     //
-    if (method === 'POST' && data)
-        init.body = typeof data === 'string' ? data : JSON.stringify(data);
+    if (method === 'POST' && data) {
+        if (typeof data === 'string') {
+            options.body = data;
+        }
+        if (typeof data === 'object') {
+            if (data instanceof File || data instanceof FormData) {
+                options.body = data;
+
+            } else {
+                options.body = JSON.stringify(data);
+                options.headers.set('Content-Type', 'application/json');
+            }
+        }
+    }
 
 
     //
@@ -106,11 +100,11 @@ export const Query = (
     }
 
 
-    return fetch(url, init)
+    return fetch(url, options)
         //
         // process standard http/fetch response
         //
-        .then(response => {
+        .then(async response => {
             if (response.ok) {
                 return response.json();
 
@@ -122,10 +116,13 @@ export const Query = (
                 }
 
                 // create error wrapper
+                const text = await response.text();
                 throw new QueryError(
                     response,
                     null,
-                    ['Status: ' +response.status +(response.statusText && ', Message: '+response.statusText)]
+                    [
+                        text || `${response.status}: ${response.statusText}`
+                    ]
                 );
             }
         })
@@ -159,17 +156,18 @@ export const Query = (
         //
         // process any errors from response and 2 "then" above
         //
-        .catch(error => {
+        .catch(e => {
             if (printErrorMessages) {
-                let {context, data, messages} = error;
-                console.error({context, data, messages});
-
-                messages.forEach(m => {
-                    store.dispatch(addErrorAlert(m));
-                });
+                if (e instanceof QueryError) {
+                    e.messages.forEach(m => {
+                        store.dispatch(addErrorAlert(m));
+                    });
+                } else {
+                    store.dispatch(addErrorAlert(e.message));
+                }
             }
 
-            throw error;
+            throw e;
         });
 };
 

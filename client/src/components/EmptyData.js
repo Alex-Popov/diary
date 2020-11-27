@@ -7,7 +7,7 @@ function EmptyData(props) {
             component="div"
             variant="overline"
             color="textSecondary"
-            className="align-center py-2 px-1"
+            className="text-align_center py-2 px-1"
         >{props.children}</Typography>
     );
 }

@@ -1,27 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { addErrorAlert } from '../store/alerts';
+import { Link, useHistory } from 'react-router-dom';
+import {addErrorAlert, addSuccessAlert} from '../store/alerts';
+import {hideLoading, showLoading} from '../store/loading';
 import API from '../core/api';
 
-//import css from './Post.module.css';
-
 import Typography from '@material-ui/core/Typography';
-//import Divider from '@material-ui/core/Divider';
-//import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import CategoryChipList from './CategoryChipList';
 import Formatter from './Formatter';
 import {DATE_FORMAT} from '../core/formatter';
 import Skeleton from '@material-ui/lab/Skeleton';
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
-import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import FileTile from './FileTile';
+
 
 
 
 function Post({ id }) {
     const dispatch = useDispatch();
+    let history = useHistory();
 
     //
     // form state
@@ -41,7 +41,7 @@ function Post({ id }) {
         setLoading(true);
         API.post.getById(id)
             .then(data => {
-//                console.log(data);
+                console.log(data);
                 if (!data) {
                     dispatch(addErrorAlert('Invalid ID'));
                     return;
@@ -53,9 +53,20 @@ function Post({ id }) {
 
     }, [id, dispatch]);
 
+
     //
     // handlers
     //
+    const handleDelete = useCallback(id => () => {
+        dispatch(showLoading());
+        API.post.deleteById(id)
+            .then(() => {
+                dispatch(addSuccessAlert('Пост успешно удален'));
+                history.push('/');
+            })
+            .catch(() => {})
+            .finally(() => dispatch(hideLoading()))
+    }, [dispatch, history]);
 
 
 
@@ -112,14 +123,15 @@ function Post({ id }) {
                             component={Link}
                             to={`/edit/${id}`}
                         >
-                            <EditRoundedIcon />
+                            <EditIcon />
                         </IconButton>
 
                         <IconButton
                             color="inherit"
                             disableRipple
+                            onClick={handleDelete(id)}
                         >
-                            <DeleteRoundedIcon />
+                            <DeleteIcon />
                         </IconButton>
                     </div>
 
@@ -129,6 +141,18 @@ function Post({ id }) {
                     className="mt-5"
                     dangerouslySetInnerHTML={{__html: data.body}}
                 />
+
+                {data.attachments && <div className="row">
+                    {data.attachments.map(a => (
+                        <div key={a.id} className="col-6 col-sm-3 col-lg-4 col-xl-2 py-3">
+                            <FileTile
+                                id={a.id}
+                                fileName={a.fileName}
+                                mimeType={a.mimeType}
+                            />
+                        </div>
+                    ))}
+                </div>}
             </div>
         );
 

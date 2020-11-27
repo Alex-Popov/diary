@@ -4,7 +4,7 @@ const sequelize = require('../sequelize');
 const DataTypes = require('../DataTypes');
 const { Model } = require('sequelize');
 
-const { ROLE_ADMIN, ROLE_USER } = require('roles');
+const { ROLE_ADMIN, ROLE_USER } = require('const');
 const bcrypt = require('bcrypt');
 
 
@@ -51,7 +51,6 @@ User.init({
         set(value) {
             this.setDataValue('username', value);
             this.setDataValue('changedDate', new Date());
-            //this.setDataValue('changedBy', 1);
         }
     },
     password: {
@@ -61,12 +60,8 @@ User.init({
 
             this.setDataValue('changedDate', new Date());
             this.setDataValue('changedPasswordDate', new Date());
-            //this.setDataValue('changedBy', 1);
         }
     },
-    /*roleEnum: {
-        type: DataTypes.ENUM([ROLE_ADMIN, ROLE_USER])
-    },*/
     role: {
         type: DataTypes.STRING,
         validate: {
@@ -80,15 +75,7 @@ User.init({
     },
     changedPasswordDate: {
         type: DataTypes.DATE_NO_TZ
-    }/*,
-    changedBy: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'User',
-            key: 'id',
-            deferrable: Deferrable.NOT
-        }
-    }*/
+    }
 }, {
     sequelize,
     modelName: 'User',

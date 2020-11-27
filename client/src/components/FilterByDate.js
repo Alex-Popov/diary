@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectDates } from '../store/postDates';
 
 import IconButton from '@material-ui/core/IconButton';
-import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
+import CloseIcon from '@material-ui/icons/Close';
 import DatePicker from './DatePicker';
 import Typography from '@material-ui/core/Typography';
 import DatepickerRangeIcon from '../icons/DatepickerRangeIcon';
@@ -72,48 +72,46 @@ function FilterByDate({
 
 
 
-    return (
-        <div className="px-4 py-3">
-            <div className="d-flex align-items-center justify-content-between mb-2">
-                <IconButtonStateful
-                    color="inherit"
-                    onClick={handleToggleRange}
-                    size="small"
-                    isActive={rangeMode}
-                >
-                    <DatepickerRangeIcon />
-                </IconButtonStateful>
+    return (<>
+        <div className="d-flex align-items-center justify-content-between mb-2">
+            <IconButtonStateful
+                color="inherit"
+                onClick={handleToggleRange}
+                size="small"
+                isActive={rangeMode}
+            >
+                <DatepickerRangeIcon />
+            </IconButtonStateful>
 
-                <div className="flex-grow-1 align-center">
-                    <Typography variant="h4">Дата</Typography>
-                </div>
-
-                <div className="icon-placeholder_def-sm">
-                    {startDate &&
-                        <IconButton
-                            color="inherit"
-                            disableRipple
-                            onClick={handleClear}
-                            size="small"
-                        >
-                            <ClearRoundedIcon />
-                        </IconButton>
-                    }
-                </div>
+            <div className="flex-grow-1 text-align_center">
+                <Typography variant="h4">Дата</Typography>
             </div>
 
-            <div className="container_max-sm container_center">
-                <DatePicker
-                    selected={startDateBuffer}
-                    startDate={startDateBuffer}
-                    endDate={endDateBuffer}
-                    onChange={handleChange}
-                    selectsRange={rangeMode}
-                    highlightDates={highlightedDates}
-                />
+            <div className="icon-placeholder_def-sm">
+                {startDate &&
+                    <IconButton
+                        color="inherit"
+                        disableRipple
+                        onClick={handleClear}
+                        size="small"
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                }
             </div>
         </div>
-    );
+
+        <div className="container_max-sm container_center">
+            <DatePicker
+                selected={startDateBuffer}
+                startDate={startDateBuffer}
+                endDate={endDateBuffer}
+                onChange={handleChange}
+                selectsRange={rangeMode}
+                highlightDates={highlightedDates}
+            />
+        </div>
+    </>);
 }
 
 export default React.memo(FilterByDate);

@@ -1,5 +1,14 @@
 import { Get, Post } from './query.js';
 
+const toFormData = data => {
+    const formData = new FormData();
+    Object.keys(data).forEach(k => {
+        formData.append(k, data[k]);
+    });
+    return formData;
+};
+
+
 //
 // API methods
 //
@@ -32,6 +41,13 @@ export default {
         getAllDates: () => Get('/api/post/getAllDates'),
         save: data => Post('/api/post/save', data),
         deleteById: id => Post('/api/post/deleteById', {id})
+    },
+    attachment: {
+        getAllByParent: (parentEntity, parentId) => Get('/api/attachment/getAllByParent', {parentEntity, parentId}),
+        uploadFile: data => Post('/api/attachment/uploadFile', toFormData(data), {
+            printErrorMessages: false
+        }),
+        deleteById: id => Post('/api/attachment/deleteById', {id})
     }
 
 };

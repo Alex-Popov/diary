@@ -5,12 +5,12 @@ import { selectCategoriesSorted, selectLoading, loadCategories } from '../store/
 import { context } from '../context/AppContext';
 import API from '../core/api';
 import { hideLoading, showLoading } from '../store/loading';
-import {addErrorAlert, addSuccessAlert} from '../store/alerts';
+import {addSuccessAlert} from '../store/alerts';
 
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
-import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import CategoryButton from './CategoryButton';
 import CategoriesLoadingSkeleton from './CategoriesLoadingSkeleton';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
@@ -40,13 +40,9 @@ function CategoriesManager() {
     const handleDelete = useCallback(id => () => {
         dispatch(showLoading());
         API.category.deleteById(id)
-            .then(count => {
-                if (count) {
-                    dispatch(addSuccessAlert('Категория успешно сохранена'));
-                    dispatch(loadCategories());
-                } else {
-                    dispatch(addErrorAlert('Ошибка при удалении категории'));
-                }
+            .then(() => {
+                dispatch(addSuccessAlert('Категория успешно удалена'));
+                dispatch(loadCategories());
             })
             .catch(() => {})
             .finally(() => dispatch(hideLoading()))
@@ -60,6 +56,7 @@ function CategoriesManager() {
                 variant="outlined"
                 onClick={handleCreate}
                 className="mt-3 mb-3"
+                size="small"
                 startIcon={<PlaylistAddIcon />}
             >Добавить категорию</Button>
 
@@ -74,10 +71,10 @@ function CategoriesManager() {
                     >{c.name}</CategoryButton>
 
                     <IconButton color="inherit" disableRipple onClick={handleEdit(c.id)} size="small">
-                        <EditRoundedIcon fontSize="small" />
+                        <EditIcon fontSize="small" />
                     </IconButton>
                     <IconButton color="inherit" disableRipple onClick={handleDelete(c.id)} size="small">
-                        <DeleteRoundedIcon fontSize="small" />
+                        <DeleteIcon fontSize="small" />
                     </IconButton>
                 </div>
             ))}

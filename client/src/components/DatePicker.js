@@ -4,8 +4,8 @@ import range from 'lodash/range';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
-import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import './DatePicker.css';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
@@ -61,7 +61,7 @@ function DatePicker(props) {
                             disableTouchRipple
                             disableRipple
                         >
-                            <ArrowBackIosRoundedIcon fontSize="small" />
+                            <ArrowBackIosIcon fontSize="small" />
                         </IconButton>
 
                         <Typography variant="h5" className="flex-grow-1">{MONTHS[date.getMonth()]}</Typography>
@@ -80,7 +80,7 @@ function DatePicker(props) {
                             disableTouchRipple
                             disableRipple
                         >
-                            <ArrowForwardIosRoundedIcon fontSize="small" />
+                            <ArrowForwardIosIcon fontSize="small" />
                         </IconButton>
                     </div>
                 )

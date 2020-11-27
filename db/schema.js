@@ -3,6 +3,7 @@
 const User = require('./entities/user');
 const Category = require('./entities/category');
 const Post = require('./entities/post');
+const Attachment = require('./entities/attachment');
 
 
 //
@@ -16,8 +17,7 @@ Category.hasMany(Category, {
     as: 'childCategories',
     foreignKey: 'parentId',
     onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-    useJunctionTable: false
+    onUpdate: 'CASCADE'
 });
 /*
 .getChildCategories()
@@ -82,6 +82,40 @@ Post.belongsToMany(Category, {
 
 
 
+// Post -> Attachment | one-to-many
+
+Post.hasMany(Attachment, {
+    foreignKey: 'postId',
+    as: 'attachments',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    hooks: true
+});
+/*
+.getAttachments()
+.countAttachments()
+.hasAttachments()
+.hasAttachments([])
+.setAttachments()
+.addAttachments()
+.addAttachments([])
+.removeAttachments()
+.removeAttachments([])
+.createAttachment()
+*/
+
+Attachment.belongsTo(Post, {
+    foreignKey: 'postId'
+});
+
+
+
+
+
+//
+// Owner
+//
+
 // User -> Category | one-to-many
 
 User.hasMany(Category, {
@@ -91,32 +125,13 @@ User.hasMany(Category, {
         allowNull: false
     },
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-    useJunctionTable: false
+    onUpdate: 'CASCADE'
 });
-/*
-.getCategories()
-.countCategories()
-.hasCategories()
-.hasCategories([])
-.setCategories()
-.addCategories()
-.addCategories([])
-.removeCategories()
-.removeCategories([])
-.createCategories()
-*/
 
 Category.belongsTo(User, {
     as: 'owner',
     foreignKey: 'ownerId'
 });
-/*
-.getOwner()
-.setOwner()
-.createOwner()
-*/
-
 
 
 // User -> Post | one-to-many
@@ -128,31 +143,31 @@ User.hasMany(Post, {
         allowNull: false
     },
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-    useJunctionTable: false
+    onUpdate: 'CASCADE'
 });
-/*
-.getPosts()
-.countPosts()
-.hasPosts()
-.hasPosts([])
-.setPosts()
-.addPosts()
-.addPosts([])
-.removePosts()
-.removePosts([])
-.createPosts()
-*/
 
 Post.belongsTo(User, {
     as: 'owner',
     foreignKey: 'ownerId'
 });
-/*
-.getOwner()
-.setOwner()
-.createOwner()
-*/
+
+
+// User -> Attachment | one-to-many
+
+User.hasMany(Attachment, {
+    as: 'attachments',
+    foreignKey: {
+        name: 'ownerId',
+        allowNull: false
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
+
+Attachment.belongsTo(User, {
+    as: 'owner',
+    foreignKey: 'ownerId'
+});
 
 
 
@@ -161,5 +176,6 @@ Post.belongsTo(User, {
 module.exports = {
     User,
     Category,
-    Post
+    Post,
+    Attachment
 };

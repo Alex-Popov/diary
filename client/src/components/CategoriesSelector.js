@@ -77,12 +77,16 @@ function CategoriesSelector({ value, onChange }) {
     return (<>
         <div className={css.available}>
             {!hasSelected && <EmptyData>Ничего не выбрано</EmptyData>}
-            {hasSelected && <CategoryButtonsList items={selectedCategories} onClick={handleUnselect} isSelected />}
+            {hasSelected && <div className={css.list}>
+                <CategoryButtonsList items={selectedCategories} onClick={handleUnselect} isSelected />
+            </div>}
         </div>
         <Divider className="my-3" />
         <div className={css.selected}>
             {allSelected && <EmptyData>Все выбрано</EmptyData>}
-            {!allSelected && <CategoryButtonsList items={availableCategories} onClick={handleSelect} />}
+            {!allSelected && <div className={css.list}>
+                <CategoryButtonsList items={availableCategories} onClick={handleSelect} />
+            </div>}
         </div>
     </>);
 }

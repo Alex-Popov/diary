@@ -22,7 +22,7 @@ function LoginForm() {
         dispatch(showLoading());
         API.auth.login(username, password)
             .then(({sessionId, userId, userRole}) => dispatch(setSession(sessionId, userId, userRole)))
-            .catch(e => {})
+            .catch(() => {})
             .finally(() => dispatch(hideLoading()))
     };
 

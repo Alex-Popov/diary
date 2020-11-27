@@ -1,0 +1,74 @@
+@value colorPrimary from '../theme/variables.module.css';
+@value colorError from '../theme/variables.module.css';
+@value colorTextSecondary from '../theme/variables.module.css';
+@value colorBorder from '../theme/variables.module.css';
+
+
+.main {
+    padding: 2rem;
+
+    border: 2px dashed  colorBorder;
+    border-radius: 4px;
+
+    background-color: #f3f3f3;
+    color: colorTextSecondary;
+    outline: none;
+}
+
+.label {
+    text-align: center;
+}
+
+
+/* full screen */
+
+.fullscreen {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+
+    background-color: rgba(0, 0, 0, .5);
+    color: #fff;
+    outline: none;
+}
+.fullscreen:before {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 5rem;
+    bottom: 5rem;
+    left: 5rem;
+    right: 5rem;
+    border: 5px dashed rgba(255, 255, 255, .6);
+}
+.fullscreen .label {
+    padding: 6rem;
+
+    max-width: 50%;
+    position: relative;
+    z-index: -1;
+    font-size: 2rem;
+}
+
+
+/* reject alert */
+
+.alert {
+    position: absolute;
+    bottom: 6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+
+/* state */
+
+.reject,
+.reject:before {
+    border-color: colorError;
+}

@@ -19,6 +19,9 @@
     .width {
         width: 320px;
     }
+    .sidebar {
+        padding-top: height;
+    }
 }
 
 
@@ -38,5 +41,4 @@
     background-color: #d3dce5;
     composes: width;
     composes: behavior;
-    padding-top: height;
 }

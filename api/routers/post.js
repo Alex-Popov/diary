@@ -2,12 +2,8 @@
 
 const express = require('express');
 const { Op } = require('sequelize');
-const { OperationResults, mustAuthenticated, promiseHandler, bindDataToRes, checkOwnerMiddlewareFactory } = require('../utils');
-const { Category, Post } = require('db');
-
-// permission checkers
-const checkOwnerPost = checkOwnerMiddlewareFactory(Post, req => req.body.id);
-const checkOwnerGet = checkOwnerMiddlewareFactory(Post, req => req.query.id);
+const { mustAuthenticated, OperationResults, bindDataToRes, checkAccess } = require('../utils');
+const { Category, Post, Attachment } = require('db');
 
 
 const router = express.Router();
@@ -91,41 +87,61 @@ router.get('/getAllDates', mustAuthenticated, (req, res) => {
         attributes: ['date'],
         group: 'date'
     })
-        .then(data => res.send(
-            new OperationResults(true, '', data.map(i => i.date))
-        ))
-        .catch(promiseHandler)
+        .then(data => OperationResults.Success(data.map(i => i.date)))
+        .catch(OperationResults.Error)
+        .then(res.send.bind(res));
 });
 
-router.get('/getById', mustAuthenticated, checkOwnerGet, (req, res) => bindDataToRes(res,
-    Post.findByPk(req.query.id, {
-        include: {
-            model: Category,
-            as: 'categories'
-        }
-    })
-));
-
-router.post('/save', mustAuthenticated, checkOwnerPost, async (req, res) => {
-    try {
-        const [post] = await Post.upsert({// values
-            id: req.body.id || null,
-            title: req.body.title,
-            body: req.body.body,
-            date: req.body.date,
-            ownerId: req.session.user.id
+router.get(
+    '/getById',
+    mustAuthenticated,
+    checkAccess(Post, req => req.query.id),
+    (req, res) => bindDataToRes(res,
+        Post.findByPk(req.query.id, {
+            include: [
+                {
+                    model: Category,
+                    as: 'categories'
+                },
+                {
+                    model: Attachment,
+                    as: 'attachments'
+                }
+            ]
         })
-        await post.setCategories(req.body.categories);
-        res.send(new OperationResults(true, '', post.id));
+    )
+);
 
-    } catch (e) {
-        res.send(promiseHandler(e));
+router.post(
+    '/save',
+    mustAuthenticated,
+    checkAccess(Post, req => req.body.id),
+    async (req, res) => {
+        try {
+            const [post] = await Post.upsert({// values
+                id: req.body.id || null,
+                title: req.body.title,
+                body: req.body.body,
+                date: req.body.date,
+                ownerId: req.session.user.id
+            })
+            await post.setCategories(req.body.categories);
+            res.send(OperationResults.Success(post.id));
+
+        } catch (e) {
+            res.send(OperationResults.Error(e));
+        }
     }
-});
+);
 
-router.post('/deleteById', mustAuthenticated, checkOwnerPost, (req, res) => bindDataToRes(res,
-    Post.build({ id: req.body.id }).destroy()
-));
+router.post(
+    '/deleteById',
+    mustAuthenticated,
+    checkAccess(Post, req => req.body.id),
+    (req, res) => bindDataToRes(res,
+        Post.build({ id: req.body.id }).destroy()
+    )
+);
 
 
 

@@ -1,8 +1,10 @@
 'use strict';
 
-const { authorizeMiddlewareFactory } = require('auth');
-const { ROLE_ADMIN } = require('roles');
+const { authorize } = require('auth');
+const { ROLE_ADMIN } = require('const');
 const httpError = require('http-errors');
+const { isClass } = require('utils');
+const { Model } = require('sequelize');
 
 
 /*
@@ -21,6 +23,20 @@ class OperationResults {
         this.messages = this.messages.concat(messages);
         this.data = data;
     }
+
+    static Error(error) {
+        if (error instanceof Error)
+            return new OperationResults(false, error.message);
+
+        if (typeof error === 'string')
+            return new OperationResults(false, error);
+
+        return new OperationResults(false);
+    }
+
+    static Success(data, message) {
+        return new OperationResults(true, message, data);
+    }
 }
 
 //
@@ -37,31 +53,35 @@ const clientSessionWrapper = (session) => ({
 //
 // middleware helpers
 //
-const mustAuthenticated = authorizeMiddlewareFactory();
+const mustAuthenticated = authorize();
 
-const isAdmin = authorizeMiddlewareFactory(ROLE_ADMIN);
+const isAdmin = authorize(ROLE_ADMIN);
 
-const checkOwnerMiddlewareFactory = (entity, getId) => {
+const checkAccess = (getEntity, getId) => { // middleware factory
     return async (req, res, next) => {
         // get id from Request
-        const id = getId(req);
+        const id = (typeof getId === 'function' ? getId(req) : getId);
+        const Entity = (typeof getEntity === 'function' && !isClass(getEntity) ? getEntity(req) : getEntity);
 
-        // check access if ID exist
+        // check access if ID and Model are exist
         if (id) {
+            if (!(Entity.prototype instanceof Model)) return next(httpError(400));
+
             try {
-                // try to get a row by entity and id
-                const row = await entity.findOne({
-                    where: {
-                        id,
-                        ownerId: req.session.user.id
-                    }
+                // try to get a row by Entity and id
+                const instance = await Entity.findByPk(id, {
+                    attributes: ['ownerId']
                 });
-                // if no row - 403
-                if (!row) return next(httpError(403));
+
+                // no record at all
+                if (!instance) return next(httpError(400, 'No record exists'));
+
+                // owner doesn't match - 403
+                if (instance.ownerId !== req.session.user.id) return next(httpError(403));
 
             } catch (e) {
-                // if error on query - 403
-                return next(httpError(403, e.message));
+                // if error on query - 400
+                return next(httpError(400, e.message));
             }
         }
 
@@ -71,30 +91,12 @@ const checkOwnerMiddlewareFactory = (entity, getId) => {
 
 
 //
-// response helpers
+// promise helpers
 //
-
-const promiseHandler = (isSuccessful, messages, data) => {
-    // only first argument provided - Promise case
-    if (messages === undefined && data === undefined) {
-        // error, no messages, error = isSuccessful - .catch() case
-        if (isSuccessful instanceof Error) {
-            return new OperationResults(false, isSuccessful.message);
-
-            // success, no messages, data = isSuccessful - .then() case
-        } else {
-            return new OperationResults(true, '', isSuccessful);
-        }
-
-        // All arguments provided, manual creation case
-    } else {
-        return new OperationResults(isSuccessful, messages, data);
-    }
-}
 
 const bindDataToRes = (res, dataProviderPromise) => {
     dataProviderPromise
-        .then(promiseHandler, promiseHandler)
+        .then(OperationResults.Success, OperationResults.Error)
         .then(res.send.bind(res));
 }
 
@@ -105,7 +107,6 @@ module.exports = {
     mustAuthenticated,
     isAdmin,
     clientSessionWrapper,
-    promiseHandler,
     bindDataToRes,
-    checkOwnerMiddlewareFactory
+    checkAccess
 };

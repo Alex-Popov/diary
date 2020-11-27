@@ -3,20 +3,16 @@
 const express = require('express');
 const httpError = require('http-errors');
 
-const authRouter = require('./routers/auth');
-const userRouter = require('./routers/user');
-const categoryRouter = require('./routers/category');
-const postRouter = require('./routers/post');
-
 
 // Router for all /api/ requests
 
 const router = express.Router();
 
-router.use('/auth', authRouter);
-router.use('/user', userRouter);
-router.use('/category', categoryRouter);
-router.use('/post', postRouter);
+router.use('/auth', require('./routers/auth'));
+router.use('/user', require('./routers/user'));
+router.use('/category', require('./routers/category'));
+router.use('/post', require('./routers/post'));
+router.use('/attachment', require('./routers/attachment'));
 
 
 // api/* - 404

@@ -5,6 +5,7 @@ import { hideLoading, showLoading } from '../store/loading';
 import { addSuccessAlert, addErrorAlert } from '../store/alerts';
 import {context} from '../context/AppContext';
 import API from '../core/api';
+import { ENTITY_POST } from '../const';
 
 import sidebarCss from '../components/Sidebar.module.css';
 import css from './Editor.module.css';
@@ -12,22 +13,23 @@ import css from './Editor.module.css';
 import DatePicker from '../components/DatePicker';
 import CategoriesSelector from '../components/CategoriesSelector';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import RichText from '../components/RichText';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import IconButton from '@material-ui/core/IconButton';
+import Alert from '@material-ui/lab/Alert';
+import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
+import Attachments from '../components/Attachments';
 
 
-
-const FormActions = React.memo(function FormActions({onSubmit, disableSave}) {
+const FormActions = React.memo(function FormActions({ id, onSubmit, disableSave }) {
     return (
-        <div className="d-flex justify-content-between justify-content-md-end align-items-center align-right px-4 py-3">
+        <div className="d-flex justify-content-between justify-content-md-end align-items-center text-align_right px-4 py-3">
             <Button
                 disableRipple
                 component={Link}
-                to="/"
+                to={id ? `/post/${id}` : '/'}
             >
                 Отменить
             </Button>
@@ -126,15 +128,12 @@ function Editor() {
 
 
 
-    return (
-        <div className="d-block d-md-flex">
-            <div className={`d-none d-md-block flex-shrink-0 ${sidebarCss.width}`}></div>
+    return (<>
+        <FormActions id={id} onSubmit={handleSubmit} disableSave={disableSave} />
 
-            <div className="flex-grow-1 container-max_medium py-1">
-                <FormActions onSubmit={handleSubmit} disableSave={disableSave} />
-                <Divider className="d-md-none" />
-
-                <div className="px-4 pb-4 pt-2 py-xl-1">
+        <div className="d-block d-md-flex b-y">
+            <div className="flex-grow-1 order-0 order-md-1 d-block d-xl-flex no-gutters">
+                <div className="flex-grow-1 px-4 pb-4 pt-2 py-xl-1">
                     <TextField
                         label="Заголовок"
                         value={title}
@@ -154,49 +153,57 @@ function Editor() {
                     </div>
                 </div>
 
-                <div className={`${css.sidebarRight} ${css.sidebarRightWidth}`}>
+                <div className={`col-12 col-xl-4 ${css.sidebarRight}`}>
                     <div className="px-4 py-3">
-                        <Typography variant="h4" className="mb-2 align-center">Attachments</Typography>
+                        <Typography variant="h4" className="mb-3 text-align_center">Вложения</Typography>
+
+                        {id
+                            ? <Attachments
+                                parentEntity={ENTITY_POST}
+                                parentId={id}
+                            />
+                            : <Alert
+                                severity="warning"
+                                variant="outlined"
+                                icon={<InsertDriveFileIcon fontSize="large" />}
+                                className="flex-column align-items-center text-align_center"
+                            >Чтобы добавлять вложения, сначала сохраните пост</Alert>
+                        }
                     </div>
                 </div>
-
-                <div className={`${css.sidebarLeft} ${sidebarCss.width}`}>
-                    <div className="px-4 py-3">
-                        <Typography variant="h4" className="mb-2 align-center">Дата</Typography>
-                        <div className="container_max-sm container_center">
-                            <DatePicker selected={date} onChange={setDate} />
-                        </div>
-                    </div>
-                    <Divider />
-                    <div className="px-4 pt-3 pb-4">
-                        <div className="d-flex align-items-center justify-content-between mb-2">
-                            <IconButton
-                                color="inherit"
-                                disableRipple
-                                onClick={handleCreateCategory}
-                                size="small"
-                            >
-                                <PlaylistAddIcon />
-                            </IconButton>
-
-                            <div className="flex-grow-1 align-center">
-                                <Typography variant="h4">Категории</Typography>
-                            </div>
-                            <div className="icon-placeholder_def-sm"></div>
-                        </div>
-
-                        <CategoriesSelector value={categories} onChange={setCategories} />
-                    </div>
-                </div>
-
-                <Divider className="d-md-none" />
-                <FormActions onSubmit={handleSubmit} disableSave={disableSave} />
             </div>
 
-            <div className={`d-none d-xl-block flex-shrink-0 ${css.sidebarRightWidth}`}></div>
-        </div>
-    );
-}
+            <div className={`order-1 order-md-0 flex-shrink-0 ${css.sidebarLeft} ${sidebarCss.width}`}>
+                <div className="px-4 py-3 b-b">
+                    <Typography variant="h4" className="mb-2 text-align_center">Дата</Typography>
+                    <div className="container_max-sm container_center">
+                        <DatePicker selected={date} onChange={setDate} />
+                    </div>
+                </div>
+                <div className="px-4 pt-3 pb-4">
+                    <div className="d-flex align-items-center justify-content-between mb-2">
+                        <IconButton
+                            color="inherit"
+                            disableRipple
+                            onClick={handleCreateCategory}
+                            size="small"
+                        >
+                            <PlaylistAddIcon />
+                        </IconButton>
 
+                        <div className="flex-grow-1 text-align_center">
+                            <Typography variant="h4">Категории</Typography>
+                        </div>
+                        <div className="icon-placeholder_def-sm"></div>
+                    </div>
+
+                    <CategoriesSelector value={categories} onChange={setCategories} />
+                </div>
+            </div>
+        </div>
+
+        <FormActions id={id} onSubmit={handleSubmit} disableSave={disableSave} />
+    </>);
+}
 
 export default Editor;

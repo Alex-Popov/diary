@@ -1,5 +1,5 @@
 import React from 'react';
-import { ROLE_ADMIN } from '../store/auth';
+import { ROLE_ADMIN } from '../const';
 import IsUserRole from './IsUserRole';
 
 

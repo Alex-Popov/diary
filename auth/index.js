@@ -21,7 +21,7 @@ const logout = (session) => {
     });
 }
 
-const authorizeMiddlewareFactory = (roles) => {
+const authorize = (roles) => { // middleware factory
     return (req, res, next) => {
         //setTimeout(() => {
         // not authenticated at all
@@ -47,5 +47,5 @@ const authorizeMiddlewareFactory = (roles) => {
 module.exports = {
     authenticate,
     logout,
-    authorizeMiddlewareFactory
+    authorize
 }

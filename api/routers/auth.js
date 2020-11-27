@@ -11,7 +11,9 @@ const router = express.Router();
 
 
 router.get('/autoLogin', mustAuthenticated, (req, res) => res.send(
-    new OperationResults(true, '', clientSessionWrapper(req.session))
+    OperationResults.Success(
+        clientSessionWrapper(req.session)
+    )
 ));
 
 router.post('/login', (req, res) => bindDataToRes(res,

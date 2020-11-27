@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import CategoriesSelector from './CategoriesSelector';
 import CategoriesManager from './CategoriesManager';
 import IconButton from '@material-ui/core/IconButton';
-import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
-import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
+import SettingsIcon from '@material-ui/icons/Settings';
+import CloseIcon from '@material-ui/icons/Close';
 import IconButtonStateful from './IconButtonStateful';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,11 +46,11 @@ function SidebarCategories({ categories, setCategories }) {
                         size="small"
                         isActive={manageMode}
                     >
-                        <SettingsRoundedIcon />
+                        <SettingsIcon />
                     </IconButtonStateful>
                 </div>
 
-                <div className="flex-grow-1 align-center">
+                <div className="flex-grow-1 text-align_center">
                     <Typography variant="h4">Категории</Typography>
                 </div>
 
@@ -62,7 +62,7 @@ function SidebarCategories({ categories, setCategories }) {
                         onClick={handleClear}
                         size="small"
                     >
-                        <ClearRoundedIcon />
+                        <CloseIcon />
                     </IconButton>
                     }
                 </div>

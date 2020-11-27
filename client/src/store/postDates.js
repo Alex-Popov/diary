@@ -72,7 +72,7 @@ export const loadPostDates = () => (dispatch) => {
             dispatch(setDates(data))
             dispatch(endLoading());
         }))
-        .catch(error => dispatch(endLoading()))
+        .catch(() => dispatch(endLoading()))
 }
 
 

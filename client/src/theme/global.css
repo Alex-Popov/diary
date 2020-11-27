@@ -27,14 +27,24 @@
  * alignment
  */
 
-.align-left {
+.text-align_left {
     text-align: left;
 }
-.align-center {
+.text-align_center {
     text-align: center;
 }
-.align-right {
+.text-align_right {
     text-align: right;
+}
+
+/* truncate */
+
+.text-truncate {
+    display: block;
+    max-width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
 
@@ -95,3 +105,27 @@
     margin-left:auto;
     margin-right:auto;
 }
+
+
+/*
+ * borders
+ */
+
+.b-y,
+.b-t {
+    border-top: 1px solid rgba(0, 0, 0, 0.12);;
+}
+.b-y,
+.b-b {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);;
+}
+.b-x,
+.b-l {
+    border-left: 1px solid rgba(0, 0, 0, 0.12);;
+}
+.b-x,
+.b-r {
+    border-right: 1px solid rgba(0, 0, 0, 0.12);;
+}
+
+

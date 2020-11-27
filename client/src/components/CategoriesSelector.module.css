@@ -1,5 +1,6 @@
 .available {}
+.selected {}
 
-.selected {
+.selected .list {
     opacity: .6;
 }

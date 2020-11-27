@@ -1,12 +1,3 @@
-const { ROLE_ADMIN, ROLE_USER } = require('../roles');
-
-
-// reexport roles
-export {
-    ROLE_ADMIN,
-    ROLE_USER
-};
-
 
 //
 // Action Types

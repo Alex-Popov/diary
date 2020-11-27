@@ -22,11 +22,7 @@ router.get('/getCurrent', mustAuthenticated, (req, res) => bindDataToRes(res,
 ));
 
 router.post('/deleteById', isAdmin, (req, res) => bindDataToRes(res,
-    User.destroy({
-        where: {
-            id: req.body.id
-        }
-    })
+    User.build({ id: req.body.id }).destroy()
 ));
 
 

@@ -1,0 +1,26 @@
+@value colorTextPrimary from '../theme/variables.module.css';
+
+
+.container {
+    position: relative;
+    max-width: 90px;
+    margin: 0 auto;
+}
+
+.name {
+    font-size: 0.75rem;
+}
+
+.link {
+    text-decoration: none;
+    color: colorTextPrimary;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    height: auto
+}
+.container :global(svg) {
+    display: block;
+}

@@ -74,7 +74,7 @@ export const loadCategories = () => (dispatch) => {
             dispatch(setCategories(data))
             dispatch(endLoading());
         }))
-        .catch(error => dispatch(endLoading()))
+        .catch(() => dispatch(endLoading()))
 }
 
 
