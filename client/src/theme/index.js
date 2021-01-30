@@ -144,6 +144,34 @@ themeConfig.overrides = {
         filledSuccess: {
             fontWeight: 400
         }
+    },
+    MuiListItemText: {
+        primary: {
+            fontSize: '0.875rem',
+        }
+    },
+    MuiListItemIcon: {
+        root: {
+            minWidth: 0,
+            marginRight: '1rem'
+        }
+    },
+    MuiOutlinedInput: {
+        input: {
+//            padding: '10px 12px',
+            backgroundColor: '#fff'
+        }
+    },
+    MuiButton: {
+        root: {
+            minWidth: 'none'
+        },
+        containedSizeLarge: {
+            padding: '12px 22px'
+        },
+        outlinedSizeLarge: {
+            padding: '12px 22px'
+        }
     }
 };
 

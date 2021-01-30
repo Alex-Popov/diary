@@ -3,6 +3,9 @@
     outline: none !important;
 }
 
+.clickable {
+    cursor: pointer;
+}
 
 /*
  * toggle element on hover

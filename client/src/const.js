@@ -82,6 +82,8 @@ module.exports = Object.freeze({
     ENTITY_USER: 'user',
     ENTITY_ATTACHMENT: 'attachment',
 
+    PAGE_SIZE: 10,
+
     URL_ATTACHMENT_FILE : '/attachment/',
 
     FILE_TYPE_IMAGES,

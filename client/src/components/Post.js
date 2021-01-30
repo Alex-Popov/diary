@@ -1,8 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {addErrorAlert, addSuccessAlert} from '../store/alerts';
-import {hideLoading, showLoading} from '../store/loading';
 import API from '../core/api';
 
 import Typography from '@material-ui/core/Typography';
@@ -15,13 +14,15 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileTile from './FileTile';
+import {hideLoading, showLoading} from '../store/loading';
 
 
 
 
-function Post({ id }) {
+function Post({id, onDelete}) {
     const dispatch = useDispatch();
     let history = useHistory();
+
 
     //
     // form state
@@ -63,10 +64,11 @@ function Post({ id }) {
             .then(() => {
                 dispatch(addSuccessAlert('Пост успешно удален'));
                 history.push('/');
+                if (onDelete) onDelete();
             })
             .catch(() => {})
             .finally(() => dispatch(hideLoading()))
-    }, [dispatch, history]);
+    }, [dispatch, history, onDelete]);
 
 
 

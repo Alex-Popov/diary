@@ -48,7 +48,8 @@ Category.belongsTo(Category, {
 
 Category.belongsToMany(Post, {
     through: 'PostToCategory',
-    as: 'posts'
+    as: 'posts',
+    timestamps: false
 });
 /*
 .getPosts()
@@ -65,7 +66,8 @@ Category.belongsToMany(Post, {
 
 Post.belongsToMany(Category, {
     through: 'PostToCategory',
-    as: 'categories'
+    as: 'categories',
+    timestamps: false
 });
 /*
 .getCategories()

@@ -37,7 +37,7 @@ function SidebarCategories({ categories, setCategories }) {
 
 
     return (
-        <div className={`px-4 py-3 flex-grow-1 ${manageMode && manageModeOn}`}>
+        <div className={`px-3 py-3 flex-grow-1 ${manageMode && manageModeOn}`}>
             <div className="d-flex align-items-center justify-content-between mb-2">
                 <div className="icon-placeholder_def-sm">
                     <IconButtonStateful

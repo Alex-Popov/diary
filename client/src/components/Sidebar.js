@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import IconButton from "@material-ui/core/IconButton";
-
 import { context } from "../context/AppContext";
 import css from './Sidebar.module.css';
+
+import useDisableBodyScroll from '../hooks/useDisableBodyScroll';
+import { makeStyles } from '@material-ui/core/styles';
+import IconButton from "@material-ui/core/IconButton";
 import CheckIcon from '@material-ui/icons/Check';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +28,9 @@ function Sidebar(props) {
     // open state of Sidebar
     const [open, setOpen] = useState(false);
 
+    // disable body scroll
+    useDisableBodyScroll(open);
+
     // mount toolbar icon into Header
     const { setHeaderToolbar } = useContext(context.setters);
     useEffect(() => {
@@ -41,34 +45,24 @@ function Sidebar(props) {
         return () => setHeaderToolbar(null);
     }, [props.toolbarIcon, setHeaderToolbar]);
 
-    // disable scroll in body when open
-    useEffect(() => {
-        if (open)
-            document.body.style.overflow = 'hidden';
-        else
-            document.body.style.removeProperty('overflow');
-    }, [open]);
 
 
-
-    return (
-        <>
-            <div className={[
-                zindex,
-                css.sidebar,
-                open ? css.open : ''
-            ].join(' ')}>
-                <div className="d-md-none d-flex flex-shrink-0 justify-content-end align-items-center p-2">
-                    <IconButton disableTouchRipple onClick={() => setOpen(false)}>
-                        <CheckIcon />
-                    </IconButton>
-                </div>
-
-                {props.children}
+    return (<>
+        <div className={[
+            zindex,
+            css.sidebar,
+            open ? css.open : ''
+        ].join(' ')}>
+            <div className="d-md-none d-flex flex-shrink-0 justify-content-end align-items-center p-2">
+                <IconButton disableTouchRipple onClick={() => setOpen(false)}>
+                    <CheckIcon />
+                </IconButton>
             </div>
-            <div className={`d-none d-md-block flex-shrink-0 ${css.width}`}></div>
-        </>
-    );
+
+            {props.children}
+        </div>
+        <div className={`d-none d-md-block flex-shrink-0 ${css.width}`}></div>
+    </>);
 }
 
 

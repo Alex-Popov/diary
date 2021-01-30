@@ -1,0 +1,12 @@
+
+.section {
+    padding: 2px 1px;
+    -ms-flex: 0 0 11.111111%;
+    flex: 0 0 11.111111%;
+    max-width: 11.111111%;
+}
+.color {
+    height: 18px;
+    cursor: pointer;
+    margin: 1px 0;
+}

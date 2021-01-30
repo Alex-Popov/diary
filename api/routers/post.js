@@ -4,6 +4,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 const { mustAuthenticated, OperationResults, bindDataToRes, checkAccess } = require('../utils');
 const { Category, Post, Attachment } = require('db');
+const { PAGE_SIZE } = require('const');
 
 
 const router = express.Router();
@@ -19,7 +20,7 @@ router.get('/getAll', mustAuthenticated, (req, res) => bindDataToRes(res,
     })
 ));
 
-router.get('/getAllByFilter', mustAuthenticated, (req, res) => {
+router.get('/getAllByFilter', mustAuthenticated, async (req, res) => {
     const filter = req.query.filter ? JSON.parse(req.query.filter) : {};
     let categoryWhere = {},
         postWhere = {
@@ -61,7 +62,7 @@ router.get('/getAllByFilter', mustAuthenticated, (req, res) => {
             }
         ];
 
-    bindDataToRes(res,
+/*    bindDataToRes(res,
         Post.findAll({
             where: postWhere,
             include: {
@@ -71,10 +72,46 @@ router.get('/getAllByFilter', mustAuthenticated, (req, res) => {
                 required: !!filter.categories.length
             },
             order: [
-                ['date', 'ASC']
+                ['date', 'DESC']
             ]
         })
-    )
+    )*/
+
+    try {
+        const posts = await Post.findAll({
+            where: postWhere,
+            include: {
+                model: Category,
+                as: 'categories',
+                where: categoryWhere,
+                required: !!filter.categories.length
+            },
+            order: [
+                ['date', 'DESC']
+            ],
+            offset: (filter.page - 1) * PAGE_SIZE,
+            limit: PAGE_SIZE
+        });
+        const total = await Post.count({
+            where: postWhere,
+            include: {
+                model: Category,
+                as: 'categories',
+                attributes: [],
+                where: categoryWhere,
+                required: !!filter.categories.length
+            },
+            group: ['Post.id']
+        });
+
+        res.send(OperationResults.Success({
+            posts,
+            total: total.length
+        }));
+
+    } catch (e) {
+        res.send(OperationResults.Error(e));
+    }
 });
 
 router.get('/getAllDates', mustAuthenticated, (req, res) => {

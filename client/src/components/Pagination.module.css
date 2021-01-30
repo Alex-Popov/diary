@@ -1,0 +1,15 @@
+@value colorPrimary from '../theme/variables.module.css';
+
+.page {
+    margin: 0 2px !important;
+    width: 2rem;
+    height: 2rem;
+    padding: 0 !important;
+    border-radius: 50% !important;
+}
+
+.selected {
+    color: #fff !important;
+    background-color: colorPrimary !important;
+    border-color: colorPrimary !important;
+}

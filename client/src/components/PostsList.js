@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-
 import Formatter from '../components/Formatter';
 import { DATE_FORMAT } from '../core/formatter';
 
@@ -10,9 +8,13 @@ import CategoryChipList from '../components/CategoryChipList';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
+import EmptyData from './EmptyData';
 
 
 function PostsList({ posts }) {
+    if (!posts.length)
+        return <EmptyData>Ничего не найдено</EmptyData>;
+
     return posts.map(p => (
         <Card key={p.id} className="mb-3">
             <CardActionArea disableRipple component={Link} to={`/post/${p.id}`}>

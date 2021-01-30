@@ -12,9 +12,8 @@ import IconButtonStateful from './IconButtonStateful';
 
 function FilterByDate({
     startDate,
-    onChangeStartDate,
     endDate,
-    onChangeEndDate,
+    onChange
 }) {
     //
     // highlighted dates
@@ -25,15 +24,16 @@ function FilterByDate({
     //
     // buffer for startDate when range enabled
     //
-    const [startDateBuffer, setStartDateBuffer] = useState(startDate);
+    const [datesBuffer, setDatesBuffer] = useState({
+        start: startDate,
+        end: endDate
+    });
     useEffect(() => {
-        setStartDateBuffer(startDate);
-    }, [setStartDateBuffer, startDate]);
-
-    const [endDateBuffer, setEndDateBuffer] = useState(endDate);
-    useEffect(() => {
-        setEndDateBuffer(endDate);
-    }, [setEndDateBuffer, endDate]);
+        setDatesBuffer({
+            start: startDate,
+            end: endDate
+        });
+    }, [setDatesBuffer, startDate, endDate]);
 
     //
     // range mode
@@ -44,31 +44,28 @@ function FilterByDate({
     // handlers
     //
     const handleClear = useCallback(() => {
-        onChangeStartDate(null);
-        onChangeEndDate(null);
-    }, [onChangeStartDate, onChangeEndDate]);
+        onChange(null, null);
+    }, [onChange]);
 
     const handleChange = useCallback(dates => {
         if (rangeMode) {
             const [start, end] = dates;
+
             if (end) {
-                onChangeStartDate(start);
-                onChangeEndDate(end);
+                onChange(start, end);
             } else {
-                setStartDateBuffer(start);
-                setEndDateBuffer(end);
+                setDatesBuffer({start, end});
             }
 
         } else {
-            onChangeStartDate(dates);
+            onChange(dates, null);
         }
 
-    }, [rangeMode, onChangeStartDate, onChangeEndDate]);
+    }, [rangeMode, onChange]);
 
     const handleToggleRange = useCallback(() => {
         setRangeMode(r => !r);
-        onChangeEndDate(null);
-    }, [setRangeMode, onChangeEndDate]);
+    }, [setRangeMode]);
 
 
 
@@ -103,9 +100,9 @@ function FilterByDate({
 
         <div className="container_max-sm container_center">
             <DatePicker
-                selected={startDateBuffer}
-                startDate={startDateBuffer}
-                endDate={endDateBuffer}
+                selected={datesBuffer.start}
+                startDate={datesBuffer.start}
+                endDate={datesBuffer.end}
                 onChange={handleChange}
                 selectsRange={rangeMode}
                 highlightDates={highlightedDates}

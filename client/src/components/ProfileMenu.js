@@ -24,6 +24,7 @@ function ProfileMenu() {
     const dispatch = useDispatch();
     const handleLogout = useCallback(() => {
         API.auth.logout()
+			.catch(() => {})
             .finally(() => dispatch(destroySession()))
     }, [dispatch]);
 

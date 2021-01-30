@@ -10,6 +10,9 @@
     font-family: inherit;
     font-size: inherit;
 }
+.ql-editor {
+    background-color: #fff;
+}
 .ql-editor.ql-blank::before {
     font-style: normal;
     color: rgba(0, 0, 0, 0.54);

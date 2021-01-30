@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { hideLoading, showLoading } from '../store/loading';
 import { addSuccessAlert, addErrorAlert } from '../store/alerts';
+import {loadPostDates} from '../store/postDates';
 import {context} from '../context/AppContext';
 import API from '../core/api';
 import { ENTITY_POST } from '../const';
@@ -23,28 +24,27 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import Attachments from '../components/Attachments';
 
 
-const FormActions = React.memo(function FormActions({ id, onSubmit, disableSave }) {
-    return (
-        <div className="d-flex justify-content-between justify-content-md-end align-items-center text-align_right px-4 py-3">
-            <Button
-                disableRipple
-                component={Link}
-                to={id ? `/post/${id}` : '/'}
-            >
-                Отменить
-            </Button>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={onSubmit}
-                disabled={disableSave}
-                className="ml-2"
-            >
-                Сохранить
-            </Button>
-        </div>
-    );
-});
+
+const renderFormActions = (id, onSubmit, disableSave) => (
+    <div className="d-flex justify-content-between justify-content-md-end align-items-center text-align_right px-4 py-3">
+        <Button
+            disableRipple
+            component={Link}
+            to={id ? `/post/${id}` : '/'}
+        >
+            Закрыть
+        </Button>
+        <Button
+            variant="contained"
+            color="primary"
+            onClick={onSubmit}
+            disabled={disableSave}
+            className="ml-3"
+        >
+            Сохранить
+        </Button>
+    </div>
+);
 
 
 
@@ -111,6 +111,7 @@ function Editor() {
         })
             .then(id => {
                 dispatch(addSuccessAlert('Пост успешно сохранен'));
+                dispatch(loadPostDates());
                 history.push(`/edit/${id}`);
             })
             .catch(() => {})
@@ -129,11 +130,11 @@ function Editor() {
 
 
     return (<>
-        <FormActions id={id} onSubmit={handleSubmit} disableSave={disableSave} />
+        {renderFormActions(id, handleSubmit, disableSave)}
 
         <div className="d-block d-md-flex b-y">
             <div className="flex-grow-1 order-0 order-md-1 d-block d-xl-flex no-gutters">
-                <div className="flex-grow-1 px-4 pb-4 pt-2 py-xl-1">
+                <div className="flex-grow-1 px-4 pb-4 pt-2 pt-xl-1">
                     <TextField
                         label="Заголовок"
                         value={title}
@@ -174,13 +175,13 @@ function Editor() {
             </div>
 
             <div className={`order-1 order-md-0 flex-shrink-0 ${css.sidebarLeft} ${sidebarCss.width}`}>
-                <div className="px-4 py-3 b-b">
+                <div className="px-3 py-3 b-b">
                     <Typography variant="h4" className="mb-2 text-align_center">Дата</Typography>
                     <div className="container_max-sm container_center">
                         <DatePicker selected={date} onChange={setDate} />
                     </div>
                 </div>
-                <div className="px-4 pt-3 pb-4">
+                <div className="px-3 pt-3 pb-4">
                     <div className="d-flex align-items-center justify-content-between mb-2">
                         <IconButton
                             color="inherit"
@@ -202,7 +203,7 @@ function Editor() {
             </div>
         </div>
 
-        <FormActions id={id} onSubmit={handleSubmit} disableSave={disableSave} />
+        {renderFormActions(id, handleSubmit, disableSave)}
     </>);
 }
 

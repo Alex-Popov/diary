@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 
 import sortBy from 'lodash/sortBy';
 import { useSelector } from 'react-redux';
@@ -11,17 +11,20 @@ import CategoriesLoadingSkeleton from './CategoriesLoadingSkeleton';
 import EmptyData from './EmptyData';
 
 
-const CategoryButtonsList = React.memo(function CategoryButtonsList({items, onClick, isSelected}) {
-    return items.map(c => (
-        <div key={c.id} className="py-1">
-            <CategoryButton
-                color={c.color}
-                onClick={onClick(c.id)}
-                disableElevation={!isSelected}
-            >{c.name}</CategoryButton>
-        </div>
-    ))
-})
+const renderButtonsList = (items, onClick, isSelected = false) => (
+    <div className={css.list}>
+        {items.map(c => (
+            <div key={c.id} className="py-1">
+                <CategoryButton
+                    color={c.color}
+                    onClick={() => onClick(c.id)}
+                    disableElevation={!isSelected}
+                >{c.name}</CategoryButton>
+            </div>
+        ))}
+    </div>
+);
+
 
 
 function CategoriesSelector({ value, onChange }) {
@@ -29,64 +32,59 @@ function CategoriesSelector({ value, onChange }) {
     const loading = useSelector(selectLoading);
 
     //
-    // lists
+    // buffer for timeout
     //
+    const [valueBuffer, setValueBuffer] = useState(value);
+    useEffect(() => {
+        setValueBuffer(value);
+    }, [setValueBuffer, value]);
+
+    const timeoutIdRef = useRef(0);
+
+
+    //
+    // exit while loading
+    //
+    if (loading) return <CategoriesLoadingSkeleton />;
+
+
+
+    // lists
     const selectedCategories = sortBy(
-        categories.filter(c => value.includes(c.id)),
+        categories.filter(c => valueBuffer.includes(c.id)),
         'name'
     );
     const hasSelected = selectedCategories.length > 0;
 
     const availableCategories = sortBy(
-        categories.filter(c => !value.includes(c.id)),
+        categories.filter(c => !valueBuffer.includes(c.id)),
         'name'
     );
     const allSelected = !availableCategories.length;
 
-    //
+
     // handlers
-    //
-    const handleSelect = useCallback(id => () => {
-        onChange(v => [...v, id]);
-    }, [onChange]);
-    const handleUnselect = useCallback(id => () => {
-        onChange(v => v.filter(i => i !== id));
-    }, [onChange]);
+    const handleClick = isSelect => id => {
+        const newValueBuffer = isSelect ? [...valueBuffer, id] : valueBuffer.filter(i => i !== id);
 
-    //
-    // reset selected on categories update
-    //
-    useEffect(() => {
-        onChange(v => {
-            if (!v.length) {
-                return v; // do nothing if no categories selected
+        setValueBuffer(newValueBuffer);
 
-            } else {
-                return v.filter(id => categories.some(c => c.id === id));
-            }
-        });
-    }, [onChange, categories]);
+        clearInterval(timeoutIdRef.current);
+        timeoutIdRef.current = setTimeout(() => {
+            onChange(newValueBuffer);
+        } , 1000);
+    };
 
-
-    //
-    // render
-    //
-
-    if (loading) return <CategoriesLoadingSkeleton />;
 
     return (<>
         <div className={css.available}>
             {!hasSelected && <EmptyData>Ничего не выбрано</EmptyData>}
-            {hasSelected && <div className={css.list}>
-                <CategoryButtonsList items={selectedCategories} onClick={handleUnselect} isSelected />
-            </div>}
+            {hasSelected && renderButtonsList(selectedCategories, handleClick(false), true)}
         </div>
         <Divider className="my-3" />
         <div className={css.selected}>
             {allSelected && <EmptyData>Все выбрано</EmptyData>}
-            {!allSelected && <div className={css.list}>
-                <CategoryButtonsList items={availableCategories} onClick={handleSelect} />
-            </div>}
+            {!allSelected && renderButtonsList(availableCategories, handleClick(true))}
         </div>
     </>);
 }
