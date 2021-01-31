@@ -157,11 +157,26 @@ themeConfig.overrides = {
         }
     },
     MuiOutlinedInput: {
-        input: {
+        root: {
 //            padding: '10px 12px',
-            backgroundColor: '#fff'
+            backgroundColor: '#fff',
+  /*          borderRadius: 'inherit'*/
+        },
+        adornedStart: {
+            paddingLeft: 0
+        },
+        adornedEnd: {
+            paddingRight: 0
         }
     },
+/*    MuiInputAdornment: {
+        positionStart: {
+            marginRight: 0
+        },
+        positionEnd: {
+            marginLeft: 0
+        }
+    },*/
     MuiButton: {
         root: {
             minWidth: 'none'

@@ -16,6 +16,7 @@ import Pagination from '../components/Pagination';
 import PostsList from '../components/PostsList';
 import Post from '../components/Post';
 import EmptyData from '../components/EmptyData';
+import Search from '../components/Search';
 
 
 
@@ -35,13 +36,10 @@ function Wall() {
     });
 
     const setCategories = useCallback(categories => {
-        console.log(categories);
-
         setFilters(prevFilters => {
             if (prevFilters.categories === categories) return prevFilters;
             if (!prevFilters.categories.length && !categories.length) return prevFilters;
 
-            console.log('real update')
             return {
                 ...prevFilters,
                 page: 1,
@@ -57,7 +55,12 @@ function Wall() {
             endDate
         }))
     }, []);
-    const setSearchTerm = v => {};
+    const setSearchTerm = useCallback(searchTerm => {
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            searchTerm
+        }))
+    }, []);
     const setPage = useCallback(page => {
         setFilters(prevFilters => ({
             ...prevFilters,
@@ -137,7 +140,10 @@ function Wall() {
         <div className="d-flex no-gutters">
             <Sidebar toolbarIcon={toolbarIcon}>
                 <div className="px-3 py-3 b-b">
-                    search
+                    <Search
+                        value={filters.searchTerm}
+                        onChange={setSearchTerm}
+                    />
                 </div>
                 <div className="px-3 py-3 b-b">
                     <FilterByDate
