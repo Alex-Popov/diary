@@ -97,6 +97,13 @@
  * View Styles for Quill saved data
  */
 
+.ql-content-view img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: none;
+}
+
 .ql-content-view ul,
 .ql-content-view ol {
     padding-left: 40px;

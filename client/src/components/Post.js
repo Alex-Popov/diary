@@ -126,11 +126,13 @@ function Post({id, onDelete}) {
         }
     );
     const handleDownload = () => {
+        dispatch(showLoading());
         API.post.getPDFById(id)
             .then(file => {
                 saveFile(file, cyrillicToTranslit().transform(data.title, '_') +'.pdf');
             })
             .catch(() => {})
+            .finally(() => dispatch(hideLoading()))
     }
 
 
