@@ -5,6 +5,17 @@ const { Op } = require('sequelize');
 const { mustAuthenticated, OperationResults, bindDataToRes, checkAccess } = require('../utils');
 const { Category, Post, Attachment } = require('db');
 const { PAGE_SIZE } = require('const');
+const { PATH_TEMPLATES } = require('config');
+const fs = require('fs');
+const path = require('path');
+
+
+const pdf = require('html-pdf');
+const pdfOptions = {
+    format: 'A4',
+    orientation: 'portrait'
+};
+const template = fs.readFileSync(require.resolve(path.join(PATH_TEMPLATES, 'post.html')), 'utf8');
 
 
 const router = express.Router();
@@ -180,6 +191,27 @@ router.post(
     )
 );
 
+router.get(
+    '/getPDFById',
+    mustAuthenticated,
+    checkAccess(Post, req => req.query.id),
+    async (req, res) => {
+        const p = await Post.findByPk(req.query.id);
+
+        let html = template;
+        html = html.replace('{{title}}', p.title);
+        html = html.replace('{{date}}', p.date);
+        html = html.replace('{{body}}', p.body || '');
+
+        pdf.create(html, pdfOptions).toStream((e, stream) => {
+            if (e) return res.send(OperationResults.Error(e));
+
+            res.setHeader('Content-Type', 'application/pdf');
+            stream.pipe(res);
+        })
+    }
+
+);
 
 
 

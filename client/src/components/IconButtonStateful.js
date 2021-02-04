@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { styled } from '@material-ui/core/styles';
 
 const IconButtonStateful = styled(
-    ({ isActive, ...otherProps }) => <IconButton disableRipple {...otherProps} />
+    ({ isActive, ...otherProps }) => <IconButton {...otherProps} />
 )
 (
     ({ theme, isActive }) => (isActive && {

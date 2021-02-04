@@ -17,7 +17,7 @@ function PostsList({ posts }) {
 
     return posts.map(p => (
         <Card key={p.id} className="mb-3">
-            <CardActionArea disableRipple component={Link} to={`/post/${p.id}`}>
+            <CardActionArea component={Link} to={`/post/${p.id}`}>
                 <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
                         <Formatter format={DATE_FORMAT}>{p.date}</Formatter>

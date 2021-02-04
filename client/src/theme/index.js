@@ -2,6 +2,7 @@
 import './html-scale.module.css';
 import 'bootstrap/dist/css/bootstrap-grid.min.css';
 import './global.css';
+import './print.css';
 
 import { createMuiTheme } from '@material-ui/core/styles';
 import themeVariables from './variables.module.css';
@@ -77,8 +78,25 @@ const themeConfig = createMuiTheme({
             //fontWeight: 300,
             //textTransform: 'uppercase'
         }
+    },
+    zIndex: {
+        mobileStepper: parseInt(themeVariables.mobileStepper, 10),
+        speedDial: parseInt(themeVariables.speedDial, 10),
+        appBar: parseInt(themeVariables.appBar, 10),
+        drawer: parseInt(themeVariables.drawer, 10),
+        modal: parseInt(themeVariables.modal, 10),
+        snackbar: parseInt(themeVariables.snackbar, 10),
+        tooltip: parseInt(themeVariables.tooltip, 10)
     }
 });
+
+
+themeConfig.props = {
+    MuiButtonBase: {
+        disableRipple: true,
+        disableTouchRipple: true
+    }
+}
 
 themeConfig.overrides = {
     MuiDialog: {
@@ -111,6 +129,13 @@ themeConfig.overrides = {
             padding: `${themeVariables.p3} ${themeVariables.p4}`,
             [themeConfig.breakpoints.down('sm')]: {
                 justifyContent: 'space-between'
+            }
+        },
+        spacing: {
+            '@global': {
+                ' > :not(:first-child)': {
+                    marginLeft: themeVariables.p3
+                }
             }
         }
     },

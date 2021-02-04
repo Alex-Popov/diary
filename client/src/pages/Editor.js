@@ -1,12 +1,12 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { hideLoading, showLoading } from '../store/loading';
 import { addSuccessAlert, addErrorAlert } from '../store/alerts';
 import {loadPostDates} from '../store/postDates';
-import {context} from '../context/AppContext';
 import API from '../core/api';
 import { ENTITY_POST } from '../const';
+import { quillDecodeIndent, quillEncodeIndent } from '../utils/quill-fix-indent.ts';
 
 import sidebarCss from '../components/Sidebar.module.css';
 import css from './Editor.module.css';
@@ -17,8 +17,6 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import RichText from '../components/RichText';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-import IconButton from '@material-ui/core/IconButton';
 import Alert from '@material-ui/lab/Alert';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import Attachments from '../components/Attachments';
@@ -28,7 +26,6 @@ import Attachments from '../components/Attachments';
 const renderFormActions = (id, onSubmit, disableSave) => (
     <div className="d-flex justify-content-between justify-content-md-end align-items-center text-align_right px-4 py-3">
         <Button
-            disableRipple
             component={Link}
             to={id ? `/post/${id}` : '/'}
         >
@@ -50,7 +47,6 @@ const renderFormActions = (id, onSubmit, disableSave) => (
 
 function Editor() {
     const dispatch = useDispatch();
-    const { setCategoryEditorOpen, setCategoryEditorId } = useContext(context.setters);
     let history = useHistory();
 
     // editor state by context
@@ -79,7 +75,7 @@ function Editor() {
                     }
 
                     setTitle(data.title);
-                    setBody(data.body);
+                    setBody(quillEncodeIndent(data.body));
                     setCategories(data.categories.map(c => c.id));
                     setDate(new Date(data.date));
                 })
@@ -105,7 +101,7 @@ function Editor() {
         API.post.save({
             id,
             title,
-            body,
+            body: quillDecodeIndent(body),
             date,
             categories
         })
@@ -117,15 +113,6 @@ function Editor() {
             .catch(() => {})
             .finally(() => dispatch(hideLoading()))
     };
-
-    //
-    // handlers
-    //
-    const handleCreateCategory = useCallback(() => {
-        setCategoryEditorId(null);
-        setCategoryEditorOpen(true);
-    }, [setCategoryEditorId, setCategoryEditorOpen]);
-
 
 
 
@@ -182,22 +169,6 @@ function Editor() {
                     </div>
                 </div>
                 <div className="px-3 pt-3 pb-4">
-                    <div className="d-flex align-items-center justify-content-between mb-2">
-                        <IconButton
-                            color="inherit"
-                            disableRipple
-                            onClick={handleCreateCategory}
-                            size="small"
-                        >
-                            <PlaylistAddIcon />
-                        </IconButton>
-
-                        <div className="flex-grow-1 text-align_center">
-                            <Typography variant="h4">Категории</Typography>
-                        </div>
-                        <div className="icon-placeholder_def-sm"></div>
-                    </div>
-
                     <CategoriesSelector value={categories} onChange={setCategories} />
                 </div>
             </div>

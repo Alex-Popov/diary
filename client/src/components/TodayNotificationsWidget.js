@@ -7,7 +7,7 @@ import CalendarTodayRoundedIcon from '@material-ui/icons/CalendarTodayRounded';
 
 function TodayNotificationsWidget() {
     return (
-        <IconButton color="inherit" disableRipple className="mr-2">
+        <IconButton color="inherit" className="mr-2">
             <CalendarTodayRoundedIcon fontSize="small" />
         </IconButton>
     );

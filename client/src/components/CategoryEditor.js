@@ -13,7 +13,7 @@ import API from '../core/api';
 
 import { HexColorPicker } from 'react-colorful';
 import 'react-colorful/dist/index.css';
-import '../theme/react-colorful-overrides.css';
+import './HexColorPicker.css';
 import css from './CategoryEditor.module.css';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -55,9 +55,9 @@ function CategoryEditor() {
     const dispatch = useDispatch();
 
     // editor state by context
-    const { categoryEditorOpen, categoryEditorId } = useContext(context.state);
-    const { setCategoryEditorOpen } = useContext(context.setters);
-    const isEdit = useMemo(() => !isNil(categoryEditorId), [categoryEditorId]);
+    const { categoryEditor: {id, show} } = useContext(context.state);
+    const { resetCategoryEditor, setShowCategoriesManager } = useContext(context.setters);
+    const isEdit = useMemo(() => !isNil(id), [id]);
 
     //
     // form state
@@ -70,10 +70,10 @@ function CategoryEditor() {
     // init data
     //
     useEffect(() => {
-        if (!categoryEditorOpen) return;
+        if (!show) return;
 
-        if (!isNil(categoryEditorId)) {
-            const category = categories.find(c => c.id === categoryEditorId);
+        if (isEdit) {
+            const category = categories.find(c => c.id === id);
 
             if (!category) {
                 dispatch(addErrorAlert('Invalid ID'));
@@ -87,21 +87,22 @@ function CategoryEditor() {
             setName('');
             setColor(sample(colorsFlat));
         }
-    }, [categoryEditorOpen, categoryEditorId, categories, dispatch]);
+    }, [id, show, isEdit, categories, dispatch]);
 
     //
     // handlers
     //
     const closeModal = useCallback(() => {
-        setCategoryEditorOpen(false);
-    }, [setCategoryEditorOpen]);
+        resetCategoryEditor();
+        setShowCategoriesManager(true);
+    }, [resetCategoryEditor, setShowCategoriesManager]);
 
     const handleSubmit = e => {
         e.preventDefault();
 
         dispatch(showLoading());
         API.category.save({
-            id: categoryEditorId,
+            id,
             name,
             color
         })
@@ -117,7 +118,7 @@ function CategoryEditor() {
 
     return (
         <Dialog
-            open={categoryEditorOpen}
+            open={show}
             disableBackdropClick
             disableEscapeKeyDown
             maxWidth="xl"
@@ -163,18 +164,13 @@ function CategoryEditor() {
                         </div>
                     </div>
                     <div className={`col-12 col-md-4 py-4 px-4 ${css.paletteButtonsSection}`}>
-                        <CategoryButtonsList items={categories} onClick={setColor} currentId={categoryEditorId} />
+                        <CategoryButtonsList items={categories} onClick={setColor} currentId={id} />
                     </div>
                 </div>
             </DialogContent>
 
             <DialogActions>
-                <Button
-                    disableRipple
-                    onClick={closeModal}
-                >
-                    Отменить
-                </Button>
+                <Button onClick={closeModal}>Отменить</Button>
                 <Button
                     variant="contained"
                     color="primary"
@@ -189,4 +185,4 @@ function CategoryEditor() {
 }
 
 
-export default React.memo(CategoryEditor);
+export default CategoryEditor;

@@ -19,7 +19,7 @@ function Header() {
 
     return <>
         <Slide appear={false} direction="down" in={!scrollTrigger}>
-            <AppBar className={css.bg}>
+            <AppBar className={`${css.bg} hide-on-print`}>
                 <div className={`d-flex align-items-center px-4 ${css.minHeight}`}>
                     <div className="mr-auto">
                         <HeaderToolbar />
@@ -28,7 +28,6 @@ function Header() {
 
                     <IconButton
                         color="inherit"
-                        disableRipple
                         className="mr-4 flex-shrink-0"
 
                         component={NavLink}
@@ -44,7 +43,7 @@ function Header() {
                 </div>
             </AppBar>
         </Slide>
-        <div className={css.minHeight}></div>
+        <div className={`${css.minHeight} hide-on-print`}></div>
     </>;
 }
 

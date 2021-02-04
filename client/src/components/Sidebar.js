@@ -37,7 +37,7 @@ function Sidebar(props) {
         if (!props.toolbarIcon) return;
 
         setHeaderToolbar(
-            <IconButton color="inherit" disableRipple onClick={() => setOpen(true)} className="d-md-none">
+            <IconButton color="inherit" onClick={() => setOpen(true)} className="d-md-none">
                 {props.toolbarIcon}
             </IconButton>
         );
@@ -54,7 +54,7 @@ function Sidebar(props) {
             open ? css.open : ''
         ].join(' ')}>
             <div className="d-md-none d-flex flex-shrink-0 justify-content-end align-items-center p-2">
-                <IconButton disableTouchRipple onClick={() => setOpen(false)}>
+                <IconButton onClick={() => setOpen(false)}>
                     <CheckIcon />
                 </IconButton>
             </div>

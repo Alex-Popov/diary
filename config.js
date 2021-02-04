@@ -21,5 +21,6 @@ module.exports = {
     PATH_CLIENT_PUBLIC: path.join(root, 'client/build/'),
     PATH_UPLOADS: path.join(root, 'uploads/'),
     PATH_ATTACHMENTS: path.join(root, 'uploads/attachments/'),
-    PATH_TMP: path.join(root, 'tmp/')
+    PATH_TMP: path.join(root, 'tmp/'),
+    PATH_TEMPLATES: path.join(root, 'templates/')
 }

@@ -7,11 +7,14 @@ import { loadPostDates } from '../store/postDates';
 
 import Header from './Header';
 import CategoryEditor from './CategoryEditor';
+import CategoriesManager from './CategoriesManager';
+import ExpiredSessionDialog from './ExpiredSessionDialog';
+import Prompt from './Prompt';
 
+// pages
 import Profile from '../pages/Profile';
 import Editor from '../pages/Editor';
 import Wall from '../pages/Wall';
-import ExpiredSessionDialog from './ExpiredSessionDialog';
 
 
 function App() {
@@ -27,7 +30,9 @@ function App() {
         <Router>
             <Header />
             <CategoryEditor />
+            <CategoriesManager />
             <ExpiredSessionDialog />
+            <Prompt />
 
             <Switch>
                 <Route path="/profile" exact component={Profile} />

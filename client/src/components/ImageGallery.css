@@ -1,0 +1,31 @@
+
+/*
+ 100px - thumbnails section
+ 80px - thumbnail image, +padding and borders
+*/
+
+.image-gallery-slide {
+    height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.image-gallery-content .image-gallery-slide .image-gallery-image {
+    max-height: calc(100vh - 100px) !important;
+}
+
+.image-gallery-thumbnail .image-gallery-thumbnail-image {
+    max-width: 100%;
+    max-height: 80px;
+    width: auto !important;
+}
+
+/* disable bottom thumbnails */
+
+.image-gallery_no-thumbnails {}
+.image-gallery_no-thumbnails .image-gallery-slide {
+    height: 100vh;
+}
+.image-gallery_no-thumbnails .image-gallery-content .image-gallery-slide .image-gallery-image {
+    max-height: none !important;
+}

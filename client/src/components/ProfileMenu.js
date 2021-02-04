@@ -29,7 +29,7 @@ function ProfileMenu() {
     }, [dispatch]);
 
     return <>
-        <IconButton color="inherit" disableRipple {...bindTrigger(menuState)}>
+        <IconButton color="inherit" {...bindTrigger(menuState)}>
             <FaceRoundedIcon fontSize="small" />
         </IconButton>
         <Menu

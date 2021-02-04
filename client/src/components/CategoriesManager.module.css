@@ -1,0 +1,16 @@
+.row {
+
+}
+.row:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.button {
+    cursor: default !important;
+    margin-right: 1rem !important;
+}
+
+.action {}
+.action + .action {
+    margin-left: 3px;
+}

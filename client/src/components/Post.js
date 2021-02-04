@@ -2,7 +2,11 @@ import React, {useCallback, useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
 import {addErrorAlert, addSuccessAlert} from '../store/alerts';
+import {hideLoading, showLoading} from '../store/loading';
 import API from '../core/api';
+import cyrillicToTranslit from 'cyrillic-to-translit-js';
+import { FILE_TYPE_IMAGES, URL_ATTACHMENT_FILE } from '../const';
+import { usePrompt } from './Prompt';
 
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,7 +18,50 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileTile from './FileTile';
-import {hideLoading, showLoading} from '../store/loading';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import ImageViewer from './ImageViewer';
+
+
+
+const saveFile = (blob, filename = 'report.pdf') => {
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.rel = 'noopener';
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+
+    setTimeout(() => {
+        URL.revokeObjectURL(a.href);
+    }, 4e4); // 40s
+    setTimeout(() => {
+        a.click();
+    }, 0);
+};
+
+const renderSkeleton = () => (
+    <div className="p-4">
+        <Skeleton type="rect" height={60} />
+        <div className="d-flex mt-2 mb-5">
+            {[...Array(3).keys()].map(i => (
+                <Skeleton key={i} variant="circle" width={30} height={30} className="ml-2" />
+            ))}
+        </div>
+
+        <div className="mb-5">
+            {[...Array(5).keys()].map(i => (
+                <Skeleton key={i} variant="text" className="my-3" />
+            ))}
+        </div>
+        <div className="mb-5">
+            {[...Array(5).keys()].map(i => (
+                <Skeleton key={i} variant="text" className="my-3" />
+            ))}
+        </div>
+    </div>
+);
 
 
 
@@ -23,10 +70,6 @@ function Post({id, onDelete}) {
     const dispatch = useDispatch();
     let history = useHistory();
 
-
-    //
-    // form state
-    //
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -47,6 +90,16 @@ function Post({id, onDelete}) {
                     dispatch(addErrorAlert('Invalid ID'));
                     return;
                 }
+
+                data.attachments.forEach(a => {
+                    a.isImage = FILE_TYPE_IMAGES.includes(a.mimeType);
+                });
+                data.images = data.attachments.filter(a => a.isImage).map(a => ({
+                    id: a.id,
+                    original: URL_ATTACHMENT_FILE+a.id,
+                    thumbnail: URL_ATTACHMENT_FILE+a.id
+                }));
+
                 setData(data);
             })
             .catch(() => {})
@@ -58,17 +111,49 @@ function Post({id, onDelete}) {
     //
     // handlers
     //
-    const handleDelete = useCallback(id => () => {
-        dispatch(showLoading());
-        API.post.deleteById(id)
-            .then(() => {
-                dispatch(addSuccessAlert('Пост успешно удален'));
-                history.push('/');
-                if (onDelete) onDelete();
+    const handleDelete = usePrompt(
+        'Вы действительно хотите удалить пост?',
+        () => {
+            dispatch(showLoading());
+            API.post.deleteById(id)
+                .then(() => {
+                    dispatch(addSuccessAlert('Пост успешно удален'));
+                    history.push('/');
+                    if (onDelete) onDelete();
+                })
+                .catch(() => {})
+                .finally(() => dispatch(hideLoading()))
+        }
+    );
+    const handleDownload = () => {
+        API.post.getPDFById(id)
+            .then(file => {
+                saveFile(file, cyrillicToTranslit().transform(data.title, '_') +'.pdf');
             })
             .catch(() => {})
-            .finally(() => dispatch(hideLoading()))
-    }, [dispatch, history, onDelete]);
+    }
+
+
+    //
+    // Image Gallery
+    //
+    const [galleryState, setGalleryState] = useState({
+        show: false,
+        index: 0
+    });
+
+    const handleShowGallery = useCallback(id => {
+        setGalleryState({
+            show: true,
+            index: data.images.findIndex(img => img.id === id)
+        });
+    }, [data]);
+    const handleHideGallery = useCallback(() => {
+        setGalleryState(prevState => ({
+            ...prevState,
+            show: false
+        }));
+    }, []);
 
 
 
@@ -76,25 +161,7 @@ function Post({id, onDelete}) {
     // return
     //
     if (loading)
-        return <div className="p-4">
-            <Skeleton type="rect" height={60} />
-            <div className="d-flex mt-2 mb-5">
-                {[...Array(3).keys()].map(i => (
-                    <Skeleton key={i} variant="circle" width={30} height={30} className="ml-2" />
-                ))}
-            </div>
-
-            <div className="mb-5">
-                {[...Array(5).keys()].map(i => (
-                    <Skeleton key={i} variant="text" className="my-3" />
-                ))}
-            </div>
-            <div className="mb-5">
-                {[...Array(5).keys()].map(i => (
-                    <Skeleton key={i} variant="text" className="my-3" />
-                ))}
-            </div>
-        </div>;
+        return renderSkeleton();
 
     if (!loading && data)
         return (
@@ -104,15 +171,18 @@ function Post({id, onDelete}) {
                         <Typography variant="body2" color="textSecondary" component="div">
                             <Formatter format={DATE_FORMAT}>{data.date}</Formatter>
                         </Typography>
-                        <Typography variant="h2" className="mb-4">{data.title}</Typography>
+                        <Typography variant="h2">{data.title}</Typography>
 
-                        <CategoryChipList categories={data.categories} />
+                        {data.categories.length > 0 && (
+                            <div className="mt-4 hide-on-print">
+                                <CategoryChipList categories={data.categories} />
+                            </div>
+                        )}
                     </div>
 
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column hide-on-print">
                         <IconButton
                             color="inherit"
-                            disableRipple
                             component={Link}
                             to="/"
                         >
@@ -121,7 +191,6 @@ function Post({id, onDelete}) {
 
                         <IconButton
                             color="inherit"
-                            disableRipple
                             component={Link}
                             to={`/edit/${id}`}
                         >
@@ -130,31 +199,46 @@ function Post({id, onDelete}) {
 
                         <IconButton
                             color="inherit"
-                            disableRipple
-                            onClick={handleDelete(id)}
+                            onClick={handleDelete}
                         >
                             <DeleteIcon />
+                        </IconButton>
+
+                        <IconButton
+                            color="inherit"
+                            onClick={handleDownload}
+                        >
+                            <CloudDownloadIcon />
                         </IconButton>
                     </div>
 
                 </div>
 
                 <div
-                    className="mt-5"
+                    className="ql-content-view mt-4"
                     dangerouslySetInnerHTML={{__html: data.body}}
                 />
 
-                {data.attachments && <div className="row">
+                {data.attachments && <div className="row mt-4">
                     {data.attachments.map(a => (
                         <div key={a.id} className="col-6 col-sm-3 col-lg-4 col-xl-2 py-3">
                             <FileTile
                                 id={a.id}
                                 fileName={a.fileName}
                                 mimeType={a.mimeType}
+                                onClick={a.isImage ? handleShowGallery : undefined}
                             />
                         </div>
                     ))}
                 </div>}
+
+                {galleryState.show && (
+                    <ImageViewer
+                        items={data.images}
+                        index={galleryState.index}
+                        onClose={handleHideGallery}
+                    />
+                )}
             </div>
         );
 

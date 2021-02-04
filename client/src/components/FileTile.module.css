@@ -1,6 +1,13 @@
 @value colorTextPrimary from '../theme/variables.module.css';
 
 
+.button {
+    display: block !important;
+    width: 100%;
+
+    color: colorTextPrimary !important;
+}
+
 .container {
     position: relative;
     max-width: 90px;
@@ -9,11 +16,6 @@
 
 .name {
     font-size: 0.75rem;
-}
-
-.link {
-    text-decoration: none;
-    color: colorTextPrimary;
 }
 
 .image {

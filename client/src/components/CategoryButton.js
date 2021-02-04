@@ -5,7 +5,6 @@ import { styled } from '@material-ui/core/styles';
 
 const CategoryButton = styled(
     ({ color, ...otherProps }) => <Button
-        disableRipple
         fullWidth
         variant="contained"
         {...otherProps}

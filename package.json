@@ -1,6 +1,6 @@
 {
   "name": "diary",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "private": true,
   "scripts": {
     "web": "cross-env NODE_PATH=. node bin/web",
@@ -20,6 +20,7 @@
     "express-fileupload": "^1.2.0",
     "express-session": "^1.17.1",
     "helmet": "^4.1.0",
+    "html-pdf": "^2.2.0",
     "http-errors": "~1.6.3",
     "lodash": "^4.17.20",
     "luxon": "^1.25.0",

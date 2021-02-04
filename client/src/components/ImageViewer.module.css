@@ -1,0 +1,36 @@
+@value tooltip from '../theme/variables.module.css';
+
+.fullscreen {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: calc(tooltip + 100);
+    background-color: rgba(0, 0, 0, .9);
+}
+
+.navControl {
+    position: absolute !important;
+    z-index: 1;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem !important;
+    color: #fff !important;
+}
+.left {
+    composes: navControl;
+    left: 0;
+}
+.right {
+    composes: navControl;
+    right: 0;
+}
+
+.close {
+    position: absolute !important;
+    z-index: 1;
+    top: 10px;
+    right: 5px;
+    color: #fff !important;
+}

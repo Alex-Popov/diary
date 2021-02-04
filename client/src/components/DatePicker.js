@@ -58,8 +58,6 @@ function DatePicker(props) {
                             onClick={decreaseMonth}
                             disabled={prevMonthButtonDisabled}
                             className="flex-shrink-0 mr-1"
-                            disableTouchRipple
-                            disableRipple
                         >
                             <ArrowBackIosIcon fontSize="small" />
                         </IconButton>
@@ -77,8 +75,6 @@ function DatePicker(props) {
                             onClick={increaseMonth}
                             disabled={nextMonthButtonDisabled}
                             className="flex-shrink-0 ml-1"
-                            disableTouchRipple
-                            disableRipple
                         >
                             <ArrowForwardIosIcon fontSize="small" />
                         </IconButton>

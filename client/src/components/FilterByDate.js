@@ -88,7 +88,6 @@ function FilterByDate({
                 {startDate &&
                     <IconButton
                         color="inherit"
-                        disableRipple
                         onClick={handleClear}
                         size="small"
                     >

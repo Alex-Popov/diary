@@ -40,3 +40,15 @@
 
 @value colorBorder: rgba(0, 0, 0, 0.12); /*#e0e0e0*/
 
+
+/*
+ * z-Index levels
+ */
+
+@value mobileStepper: 1000;
+@value speedDial: 1050;
+@value appBar: 1100;
+@value drawer: 1200;
+@value modal: 1300;
+@value snackbar: 1400;
+@value tooltip: 1500;

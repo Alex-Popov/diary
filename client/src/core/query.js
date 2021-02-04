@@ -4,6 +4,26 @@ import store from './store';
 import { addErrorAlert } from '../store/alerts';
 
 
+const getResponseData = (r, type) => {
+    switch (type) {
+        case 'arrayBuffer':
+            return r.arrayBuffer();
+
+        case 'blob':
+            return r.blob();
+
+        case 'formData':
+            return r.formData()
+
+        case 'text':
+            return r.text();
+
+        case 'json':
+        default:
+            return r.json();
+    }
+}
+
 
 class QueryError extends Error {
     constructor(context, data, messages) {
@@ -40,7 +60,8 @@ export const Query = (
     { // options
         cacheType = false,
         printErrorMessages = true,
-        catchSessionExpiration = true
+        catchSessionExpiration = true,
+        responseType = 'json'
     } = {}
 ) => {
 
@@ -106,7 +127,7 @@ export const Query = (
         //
         .then(async response => {
             if (response.ok) {
-                return response.json();
+                return getResponseData(response, responseType);
 
             } else {
                 // catch in request return 401
@@ -130,6 +151,9 @@ export const Query = (
         // process business logic response
         //
         .then(json => {
+            // skip if data is not parsable by json
+            if (responseType !== 'json') return json;
+
             if (json.isSuccessful) {
 
                 // process caching

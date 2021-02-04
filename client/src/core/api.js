@@ -40,7 +40,8 @@ export default {
         getAllByFilter: filter => Get('/api/post/getAllByFilter', {filter: JSON.stringify(filter)}),
         getAllDates: () => Get('/api/post/getAllDates'),
         save: data => Post('/api/post/save', data),
-        deleteById: id => Post('/api/post/deleteById', {id})
+        deleteById: id => Post('/api/post/deleteById', {id}),
+        getPDFById: id => Get('/api/post/getPDFById', {id}, {responseType: 'blob'})
     },
     attachment: {
         getAllByParent: (parentEntity, parentId) => Get('/api/attachment/getAllByParent', {parentEntity, parentId}),

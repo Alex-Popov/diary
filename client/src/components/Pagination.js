@@ -33,8 +33,6 @@ function Pagination({
             disabled={page === minPage}
             onClick={() => onSelect(page-1)}
             className="flex-shrink-0"
-            disableTouchRipple
-            disableRipple
         >
             <ArrowBackIosIcon fontSize="small" />
         </IconButton>
@@ -52,8 +50,6 @@ function Pagination({
                     css.page,
                     page === p ? css.selected : ''
                 ].join(' ')}
-                disableTouchRipple
-                disableRipple
             >
                 {p}
             </Button>
@@ -65,8 +61,6 @@ function Pagination({
             disabled={page === maxPage}
             onClick={() => onSelect(page+1)}
             className="flex-shrink-0"
-            disableTouchRipple
-            disableRipple
         >
             <ArrowForwardIosIcon fontSize="small" />
         </IconButton>

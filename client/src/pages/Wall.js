@@ -11,12 +11,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import TuneRoundedIcon from "@material-ui/icons/TuneRounded";
 import Sidebar from '../components/Sidebar';
 import FilterByDate from '../components/FilterByDate';
-import SidebarCategories from '../components/SidebarCategories';
 import Pagination from '../components/Pagination';
 import PostsList from '../components/PostsList';
 import Post from '../components/Post';
 import EmptyData from '../components/EmptyData';
 import Search from '../components/Search';
+import CategoriesSelector from '../components/CategoriesSelector';
 
 
 
@@ -137,7 +137,7 @@ function Wall() {
 
 
     return (<>
-        <div className="d-flex no-gutters">
+        <div className="d-flex no-gutters hide-on-print">
             <Sidebar toolbarIcon={toolbarIcon}>
                 <div className="px-3 py-3 b-b">
                     <Search
@@ -152,10 +152,12 @@ function Wall() {
                         onChange={setDates}
                     />
                 </div>
-                <SidebarCategories
-                    categories={filters.categories}
-                    setCategories={setCategories}
-                />
+                <div className="px-3 py-3 b-b">
+                    <CategoriesSelector
+                        value={filters.categories}
+                        onChange={setCategories}
+                    />
+                </div>
             </Sidebar>
 
             <div className="flex-grow-1 p-4">
@@ -169,7 +171,7 @@ function Wall() {
         </div>
 
         {postIdMemo && (
-            <div className={`${css.sidebarPost} ${css.width}`}>
+            <div className={`${css.sidebarPost} ${css.width} flat-on-print`}>
                 <Post id={postIdMemo} onDelete={fetchData} />
             </div>
         )}

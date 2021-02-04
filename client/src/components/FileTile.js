@@ -26,6 +26,7 @@ import FileTypeCompressed from '../icons/FileTypeCompressed';
 import FileTypeDefault from '../icons/FileTypeDefault';
 
 import css from './FileTile.module.css';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 
 const mapIconByType = [
@@ -68,33 +69,31 @@ const mapIconByType = [
 ];
 
 
-/*
-fileName: "536.jpg"
-id: 1
-mimeType: "image/jpeg"
-ownerId: 2
-postId: 6
-relativeFilePath: "1606328484961_BMqvPIHOJeyrIlr3O9ew4"
-size: 536495
-*/
 
 function FileTile({ id, fileName, mimeType, onClick }) {
     const isImage = FILE_TYPE_IMAGES.includes(mimeType);
+
     let FileTypeIcon = FileTypeDefault;
+    let anchorProps = {};
 
     if (!isImage) {
         const mapper = mapIconByType.find(m => m.type.includes(mimeType));
         if (mapper) FileTypeIcon = mapper.icon;
+
+        anchorProps = {
+            component: 'a',
+            href: URL_ATTACHMENT_FILE+id,
+            target: '_blank',
+            rel: 'noopener noreferrer'
+        }
     }
 
 
     return (
-        <a
+        <ButtonBase
             onClick={onClick ? () => onClick(id) : undefined}
-            className={css.link}
-            href={URL_ATTACHMENT_FILE+id}
-            target="_blank"
-            rel="noopener noreferrer"
+            className={css.button}
+            {...anchorProps}
         >
             {isImage
                 ? (
@@ -113,7 +112,7 @@ function FileTile({ id, fileName, mimeType, onClick }) {
                 )
             }
             <div className={`mt-2 text-align_center text-truncate ${css.name}`} title={fileName}>{fileName}</div>
-        </a>
+        </ButtonBase>
     );
 
 }

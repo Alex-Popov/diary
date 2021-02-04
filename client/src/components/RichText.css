@@ -91,3 +91,31 @@
 .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
     color: #3f51b5;
 }
+
+
+/*
+ * View Styles for Quill saved data
+ */
+
+.ql-content-view ul,
+.ql-content-view ol {
+    padding-left: 40px;
+}
+.ql-content-view ul ul,
+.ql-content-view ul ol,
+.ql-content-view ol ol,
+.ql-content-view ol ul {
+    margin: 5px 0;
+}
+.ql-content-view ul li,
+.ql-content-view ol li {
+    padding: 4px 0;
+}
+
+.ql-content-view ol ol {
+    list-style-type: lower-latin;
+}
+.ql-content-view ol ol ol {
+    list-style-type: lower-roman;
+}
+
