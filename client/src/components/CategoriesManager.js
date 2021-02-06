@@ -68,15 +68,15 @@ function CategoriesManager() {
     return (
         <Dialog
             open={showCategoriesManager}
-            disableBackdropClick
-            disableEscapeKeyDown
+            onBackdropClick={resetShowCategoriesManager}
+            onEscapeKeyDown={resetShowCategoriesManager}
             maxWidth="xs"
             fullWidth
             scroll="paper"
         >
             <DialogTitle>Категории</DialogTitle>
 
-            <DialogContent className="py-1" dividers>
+            <DialogContent dividers>
                 {loading && (
                     <div className="px-4 py-2">
                         <CategoriesLoadingSkeleton />

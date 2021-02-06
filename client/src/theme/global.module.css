@@ -1,0 +1,130 @@
+@value colorBorder from './variables.module.css';
+@value shadow0 from './variables.module.css';
+@value shadow1 from './variables.module.css';
+@value shadow2 from './variables.module.css';
+@value shadow3 from './variables.module.css';
+@value shadow4 from './variables.module.css';
+@value shadow5 from './variables.module.css';
+@value shadow6 from './variables.module.css';
+@value shadow7 from './variables.module.css';
+@value shadow8 from './variables.module.css';
+@value shadow9 from './variables.module.css';
+@value shadow10 from './variables.module.css';
+@value shadow11 from './variables.module.css';
+@value shadow12 from './variables.module.css';
+@value shadow13 from './variables.module.css';
+@value shadow14 from './variables.module.css';
+@value shadow15 from './variables.module.css';
+@value shadow16 from './variables.module.css';
+@value shadow17 from './variables.module.css';
+@value shadow18 from './variables.module.css';
+@value shadow19 from './variables.module.css';
+@value shadow20 from './variables.module.css';
+@value shadow21 from './variables.module.css';
+@value shadow22 from './variables.module.css';
+@value shadow23 from './variables.module.css';
+@value shadow24 from './variables.module.css';
+
+
+/*
+ * borders
+ */
+
+:global(.b-y),
+:global(.b-t) {
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+:global(.b-y),
+:global(.b-b) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+:global(.b-x),
+:global(.b-l) {
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+:global(.b-x),
+:global(.b-r) {
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+
+/*
+ * shadows
+ */
+
+:global(.shadow-0) {
+    box-shadow: shadow0;
+}
+:global(.shadow-1) {
+    box-shadow: shadow1;
+}
+:global(.shadow-2) {
+    box-shadow: shadow2;
+}
+:global(.shadow-3) {
+    box-shadow: shadow3;
+}
+:global(.shadow-4) {
+    box-shadow: shadow4;
+}
+:global(.shadow-5) {
+    box-shadow: shadow5;
+}
+:global(.shadow-6) {
+    box-shadow: shadow6;
+}
+:global(.shadow-7) {
+    box-shadow: shadow7;
+}
+:global(.shadow-8) {
+    box-shadow: shadow8;
+}
+:global(.shadow-9) {
+    box-shadow: shadow9;
+}
+:global(.shadow-10) {
+    box-shadow: shadow10;
+}
+:global(.shadow-11) {
+    box-shadow: shadow11;
+}
+:global(.shadow-12) {
+    box-shadow: shadow12;
+}
+:global(.shadow-13) {
+    box-shadow: shadow13;
+}
+:global(.shadow-14) {
+    box-shadow: shadow14;
+}
+:global(.shadow-15) {
+    box-shadow: shadow15;
+}
+:global(.shadow-16) {
+    box-shadow: shadow16;
+}
+:global(.shadow-17) {
+    box-shadow: shadow17;
+}
+:global(.shadow-18) {
+    box-shadow: shadow18;
+}
+:global(.shadow-19) {
+    box-shadow: shadow19;
+}
+:global(.shadow-20) {
+    box-shadow: shadow20;
+}
+:global(.shadow-21) {
+    box-shadow: shadow21;
+}
+:global(.shadow-22) {
+    box-shadow: shadow22;
+}
+:global(.shadow-23) {
+    box-shadow: shadow23;
+}
+:global(.shadow-24) {
+    box-shadow: shadow24;
+}
+

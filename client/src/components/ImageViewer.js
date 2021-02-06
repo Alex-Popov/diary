@@ -9,7 +9,7 @@ import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import css from './ImageViewer.module.css';
 import './ImageGallery.css';
-import useDisableBodyScrollWhileMounted from '../hooks/useDisableBodyScrollWhileMounted';
+//import useDisableBodyScroll from '../hooks/useDisableBodyScroll';
 
 
 const renderLeftNav = (onClick, disabled) => (
@@ -34,7 +34,7 @@ const renderRightNav = (onClick, disabled) => (
 
 
 function ImageViewer({items, index, onClose}) {
-    useDisableBodyScrollWhileMounted();
+//    useDisableBodyScroll(true);
     const isMobile = window.Modernizr.touchevents;
 
     return (

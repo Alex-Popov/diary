@@ -7,6 +7,8 @@ import API from '../core/api';
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
 import { FILE_TYPE_IMAGES, URL_ATTACHMENT_FILE } from '../const';
 import { usePrompt } from './Prompt';
+import saveFile from '../utils/save-file';
+import css from './Post.module.css';
 
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,26 +22,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FileTile from './FileTile';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import ImageViewer from './ImageViewer';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 
-
-const saveFile = (blob, filename = 'report.pdf') => {
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.rel = 'noopener';
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-
-    setTimeout(() => {
-        URL.revokeObjectURL(a.href);
-    }, 4e4); // 40s
-    setTimeout(() => {
-        a.click();
-    }, 0);
-};
 
 const renderSkeleton = () => (
     <div className="p-4">
@@ -170,19 +155,19 @@ function Post({id, onDelete}) {
             <div className="p-4">
                 <div className="d-flex align-items-start justify-content-between">
                     <div className="flex-grow-1">
-                        <Typography variant="body2" color="textSecondary" component="div">
+                        <Typography variant="subtitle1" color="textSecondary" component="div" className="mb-1">
                             <Formatter format={DATE_FORMAT}>{data.date}</Formatter>
                         </Typography>
-                        <Typography variant="h2">{data.title}</Typography>
+                        <Typography variant="h1">{data.title}</Typography>
 
                         {data.categories.length > 0 && (
-                            <div className="mt-4 hide-on-print">
+                            <div className="mt-2 hide-on-print">
                                 <CategoryChipList categories={data.categories} />
                             </div>
                         )}
                     </div>
 
-                    <div className="d-flex flex-column hide-on-print">
+                    <div className="flex-shrink-0 d-flex flex-column hide-on-print">
                         <IconButton
                             color="inherit"
                             component={Link}
@@ -191,27 +176,35 @@ function Post({id, onDelete}) {
                             <CloseIcon />
                         </IconButton>
 
-                        <IconButton
-                            color="inherit"
-                            component={Link}
-                            to={`/edit/${id}`}
-                        >
-                            <EditIcon />
-                        </IconButton>
+                        <div className={css.actions}>
+                            <IconButton color="inherit">
+                                <MoreHorizIcon />
+                            </IconButton>
 
-                        <IconButton
-                            color="inherit"
-                            onClick={handleDelete}
-                        >
-                            <DeleteIcon />
-                        </IconButton>
+                            <div className={css.actionsDropdown}>
+                                <IconButton
+                                    color="inherit"
+                                    component={Link}
+                                    to={`/edit/${id}`}
+                                >
+                                    <EditIcon />
+                                </IconButton>
 
-                        <IconButton
-                            color="inherit"
-                            onClick={handleDownload}
-                        >
-                            <CloudDownloadIcon />
-                        </IconButton>
+                                <IconButton
+                                    color="inherit"
+                                    onClick={handleDelete}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+
+                                <IconButton
+                                    color="inherit"
+                                    onClick={handleDownload}
+                                >
+                                    <CloudDownloadIcon />
+                                </IconButton>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

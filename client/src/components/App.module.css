@@ -1,0 +1,15 @@
+@value size from './Header.module.css';
+@value md from '../theme/variables.module.css';
+
+
+.layout {
+    height: 100vh;
+    padding-left: size;
+}
+
+@media (max-width: calc(md - 1px) ) {
+    .layout {
+        padding-left: 0;
+        padding-top: size;
+    }
+}

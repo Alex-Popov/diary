@@ -8,7 +8,6 @@ import css from './Wall.module.css';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-import TuneRoundedIcon from "@material-ui/icons/TuneRounded";
 import Sidebar from '../components/Sidebar';
 import FilterByDate from '../components/FilterByDate';
 import Pagination from '../components/Pagination';
@@ -17,10 +16,9 @@ import Post from '../components/Post';
 import EmptyData from '../components/EmptyData';
 import Search from '../components/Search';
 import CategoriesSelector from '../components/CategoriesSelector';
+import useDisableBodyScroll from '../hooks/useDisableBodyScroll';
 
 
-
-const toolbarIcon = <TuneRoundedIcon fontSize="small" />;
 
 function Wall() {
 
@@ -107,6 +105,9 @@ function Wall() {
     const minWidthLg = useMediaQuery(theme.breakpoints.up('lg'), {noSsr: true});
     const skipFetchData = useMemo(() => !!(isFirstRun.current && !minWidthLg && postIdMemo), [postIdMemo, minWidthLg]);
 
+    useDisableBodyScroll(minWidthLg || postIdMemo);
+
+
     // call API, fires when filters changed
     const fetchData = useCallback(() => {
         API.post.getAllByFilter(filters)
@@ -136,9 +137,9 @@ function Wall() {
 
 
 
-    return (<>
-        <div className="d-flex no-gutters hide-on-print">
-            <Sidebar toolbarIcon={toolbarIcon}>
+    return (
+        <div className={`d-flex no-gutters ${css.layout}`}>
+            <Sidebar>
                 <div className="px-3 py-3 b-b">
                     <Search
                         value={filters.searchTerm}
@@ -152,7 +153,7 @@ function Wall() {
                         onChange={setDates}
                     />
                 </div>
-                <div className="px-3 py-3 b-b">
+                <div className="px-3 py-3">
                     <CategoriesSelector
                         value={filters.categories}
                         onChange={setCategories}
@@ -160,22 +161,23 @@ function Wall() {
                 </div>
             </Sidebar>
 
-            <div className="flex-grow-1 p-4">
+            <div className="flex-grow-1 vertical-scroll">
                 <PostsList posts={data.posts} />
                 <Pagination total={data.total} page={filters.page} onSelect={setPage} />
             </div>
 
-            <div className={`flex-shrink-0 ${css.width} p-4 d-none d-lg-block`}>
-                <EmptyData>Выберите пост</EmptyData>
-            </div>
+            {postIdMemo && (
+                <div className={`${css.post} ${css.postWidth} vertical-scroll flat-on-print`}>
+                    <Post id={postIdMemo} onDelete={fetchData} />
+                </div>
+            )}
+            {!postIdMemo && (
+                <div className={`flex-shrink-0 ${css.postWidth} p-4 d-none d-xl-block`}>
+                    <EmptyData>Выберите пост</EmptyData>
+                </div>
+            )}
         </div>
-
-        {postIdMemo && (
-            <div className={`${css.sidebarPost} ${css.width} flat-on-print`}>
-                <Post id={postIdMemo} onDelete={fetchData} />
-            </div>
-        )}
-    </>);
+    );
 }
 
 export default Wall;

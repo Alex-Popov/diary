@@ -7,9 +7,8 @@ const CategoryChip = styled(
     ({ color, ...otherProps }) => <Chip {...otherProps} />
 )(
     ({ theme, color }) => ({
-        background: `linear-gradient(45deg, ${color} 10%, ${theme.palette.augmentColor({main: color}).light} 90%)`,
+        background: color,
         color: theme.palette.getContrastText(color),
-        textTransform: 'uppercase'
     })
 );
 

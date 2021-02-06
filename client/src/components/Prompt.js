@@ -30,6 +30,8 @@ function Prompt() {
     return (
         <Dialog
             open={show}
+            onBackdropClick={resetPrompt}
+            onEscapeKeyDown={resetPrompt}
             maxWidth="sm"
         >
             <div className="px-5 pt-4 pb-3 text-align_center">

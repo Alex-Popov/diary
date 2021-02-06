@@ -5,10 +5,14 @@ import CalendarTodayRoundedIcon from '@material-ui/icons/CalendarTodayRounded';
 
 
 
-function TodayNotificationsWidget() {
+function TodayNotificationsWidget({className}) {
     return (
-        <IconButton color="inherit" className="mr-2">
-            <CalendarTodayRoundedIcon fontSize="small" />
+        <IconButton
+            color="inherit"
+            size="small"
+            className={className}
+        >
+            <CalendarTodayRoundedIcon />
         </IconButton>
     );
 }

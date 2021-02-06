@@ -1,50 +1,41 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import AppBar from '@material-ui/core/AppBar';
-import Slide from '@material-ui/core/Slide';
+import css from './Header.module.css';
 
-import HeaderToolbar from './HeaderToolbar';
 import ProfileMenu from './ProfileMenu';
 import TodayNotificationsWidget from './TodayNotificationsWidget';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IconButton from '@material-ui/core/IconButton';
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
+import {context} from '../context/AppContext';
 
-import css from './Header.module.css';
 
 
 function Header() {
-    const scrollTrigger = useScrollTrigger();
+    const { headerToolbar } = useContext(context.state);
 
-    return <>
-        <Slide appear={false} direction="down" in={!scrollTrigger}>
-            <AppBar className={`${css.bg} hide-on-print`}>
-                <div className={`d-flex align-items-center px-4 ${css.minHeight}`}>
-                    <div className="mr-auto">
-                        <HeaderToolbar />
-                    </div>
+    return (
+        <div className={css.header}>
+            <div className="d-none d-md-block">L</div>
+            {headerToolbar}
 
+            <IconButton
+                color="inherit"
+                size="small"
+                className="m-1"
 
-                    <IconButton
-                        color="inherit"
-                        className="mr-4 flex-shrink-0"
+                component={NavLink}
+                to="/new"
+                exact
+                activeClassName={css.buttonActive}
+            >
+                <AddCircleIcon />
+            </IconButton>
+            <TodayNotificationsWidget className="m-1" />
 
-                        component={NavLink}
-                        to="/new"
-                        exact
-                        activeClassName={css.buttonActive}
-                    >
-                        <AddCircleIcon fontSize="small" />
-                    </IconButton>
-
-                    <TodayNotificationsWidget />
-                    <ProfileMenu />
-                </div>
-            </AppBar>
-        </Slide>
-        <div className={`${css.minHeight} hide-on-print`}></div>
-    </>;
+            <ProfileMenu className="mt-md-auto" />
+        </div>
+    );
 }
 
 

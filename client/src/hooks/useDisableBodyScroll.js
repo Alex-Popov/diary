@@ -4,8 +4,12 @@ import { useEffect } from 'react';
 export default function useDisableBodyScroll(toggle) {
     useEffect(() => {
         if (toggle)
-            document.body.style.overflow = 'hidden';
+            document.body.classList.add('disable-body-scroll');
         else
-            document.body.style.removeProperty('overflow');
+            document.body.classList.remove('disable-body-scroll');
+
+        return () => {
+            document.body.classList.remove('disable-body-scroll');
+        }
     }, [toggle]);
 }

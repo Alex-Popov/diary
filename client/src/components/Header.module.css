@@ -1,12 +1,54 @@
-@value height: calc(1.25rem + 24px + 6px);
+@value size: calc(1.25rem + 24px + 6px);
+@value md from '../theme/variables.module.css';
+@value appBar from '../theme/variables.module.css';
 
-.bg {
-    background-color: #293241 !important;
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: appBar;
+    width: size;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+
+    color: #fff;
+    background: linear-gradient(30deg, #b32cb5 10%, #e22aa6 90%);
+    border-right: 1px solid #964788;
 }
+.header::after {
+    content: '';
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(0deg, transparent 10%, rgba(255, 255, 255, .8) 70%, transparent 90%);
+}
+.bump {
+    margin: auto 0;
+}
+
+
+@media (max-width: calc(md - 1px) ) {
+    .header {
+        width: 100%;
+        height: size;
+
+        flex-direction: row;
+        padding: 0 1rem;
+    }
+    .bump {
+        margin: 0 auto;
+    }
+}
+
 .buttonActive {
     background-color: #384354 !important;
-}
-
-.minHeight {
-    min-height: height;
 }

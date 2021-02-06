@@ -5,7 +5,7 @@
 */
 
 .image-gallery-slide {
-    height: calc(100vh - 100px);
+    height: calc(100vh - 70px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,9 +23,11 @@
 /* disable bottom thumbnails */
 
 .image-gallery_no-thumbnails {}
+
 .image-gallery_no-thumbnails .image-gallery-slide {
     height: 100vh;
+    height: -webkit-fill-available;
 }
 .image-gallery_no-thumbnails .image-gallery-content .image-gallery-slide .image-gallery-image {
-    max-height: none !important;
+    max-height: 100vh !important;
 }

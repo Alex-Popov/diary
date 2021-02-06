@@ -1,0 +1,14 @@
+@value colorActionHover from '../theme/variables.module.css';
+@value colorBorder from '../theme/variables.module.css';
+
+.item {
+    border-bottom: 1px solid colorBorder;
+    background-color: #fff;
+}
+.item:hover {
+    background-color: colorActionHover;
+}
+.button {
+    display: block !important;
+    padding: .8rem 1rem !important;
+}

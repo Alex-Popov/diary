@@ -5,10 +5,9 @@ import { DATE_FORMAT } from '../core/formatter';
 
 import Typography from '@material-ui/core/Typography';
 import CategoryChipList from '../components/CategoryChipList';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
 import EmptyData from './EmptyData';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import css from './PostList.module.css';
 
 
 function PostsList({ posts }) {
@@ -16,17 +15,19 @@ function PostsList({ posts }) {
         return <EmptyData>Ничего не найдено</EmptyData>;
 
     return posts.map(p => (
-        <Card key={p.id} className="mb-3">
-            <CardActionArea component={Link} to={`/post/${p.id}`}>
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        <Formatter format={DATE_FORMAT}>{p.date}</Formatter>
-                    </Typography>
-                    <Typography gutterBottom variant="h5" component="h2">{p.title}</Typography>
-                    <CategoryChipList categories={p.categories} />
-                </CardContent>
-            </CardActionArea>
-        </Card>
+        <div key={p.id} className={css.item}>
+            <ButtonBase
+                component={Link}
+                to={`/post/${p.id}`}
+                className={css.button}
+            >
+                <Typography variant="subtitle2" component="div" color="textSecondary" className="text-align_right">
+                    <Formatter format={DATE_FORMAT}>{p.date}</Formatter>
+                </Typography>
+                <Typography variant="h5" component="h2">{p.title}</Typography>
+                <CategoryChipList categories={p.categories} />
+            </ButtonBase>
+        </div>
     ));
 }
 

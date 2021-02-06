@@ -27,12 +27,13 @@ function Pagination({
     // hide component if  page
     if (totalPages <= 1) return null;
 
-    return (<div className="d-flex align-items-center justify-content-center">
+    return (<div className="d-flex align-items-center justify-content-center py-4">
         <IconButton
             color="inherit"
             disabled={page === minPage}
             onClick={() => onSelect(page-1)}
             className="flex-shrink-0"
+            size="small"
         >
             <ArrowBackIosIcon fontSize="small" />
         </IconButton>
@@ -41,7 +42,7 @@ function Pagination({
         {visiblePages.map(p => (
             <Button
                 key={p}
-                variant="outlined"
+
                 size="small"
                 disabled={page === p}
                 onClick={() => onSelect(p)}
@@ -61,6 +62,7 @@ function Pagination({
             disabled={page === maxPage}
             onClick={() => onSelect(page+1)}
             className="flex-shrink-0"
+            size="small"
         >
             <ArrowForwardIosIcon fontSize="small" />
         </IconButton>

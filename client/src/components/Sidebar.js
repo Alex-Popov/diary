@@ -4,27 +4,13 @@ import { context } from "../context/AppContext";
 import css from './Sidebar.module.css';
 
 import useDisableBodyScroll from '../hooks/useDisableBodyScroll';
-import { makeStyles } from '@material-ui/core/styles';
 import IconButton from "@material-ui/core/IconButton";
 import CheckIcon from '@material-ui/icons/Check';
-
-const useStyles = makeStyles((theme) => ({
-    zindex: {
-        zIndex: theme.zIndex.appBar + 1
-    },
-    [theme.breakpoints.up('md')]: {
-        zindex: {
-            zIndex: theme.zIndex.appBar - 1
-        }
-    }
-}));
+import TuneRoundedIcon from '@material-ui/icons/TuneRounded';
 
 
 
 function Sidebar(props) {
-    // dynamic zindex based on appBar
-    const { zindex } = useStyles();
-
     // open state of Sidebar
     const [open, setOpen] = useState(false);
 
@@ -34,23 +20,25 @@ function Sidebar(props) {
     // mount toolbar icon into Header
     const { setHeaderToolbar } = useContext(context.setters);
     useEffect(() => {
-        if (!props.toolbarIcon) return;
-
-        setHeaderToolbar(
-            <IconButton color="inherit" onClick={() => setOpen(true)} className="d-md-none">
-                {props.toolbarIcon}
+         setHeaderToolbar(
+            <IconButton
+                color="inherit"
+                size="small"
+                onClick={() => setOpen(true)}
+                className="d-md-none mr-auto"
+            >
+                <TuneRoundedIcon />
             </IconButton>
         );
 
         return () => setHeaderToolbar(null);
-    }, [props.toolbarIcon, setHeaderToolbar]);
+    }, [setHeaderToolbar]);
 
 
-
-    return (<>
+    return (
         <div className={[
-            zindex,
             css.sidebar,
+            'vertical-scroll',
             open ? css.open : ''
         ].join(' ')}>
             <div className="d-md-none d-flex flex-shrink-0 justify-content-end align-items-center p-2">
@@ -61,8 +49,7 @@ function Sidebar(props) {
 
             {props.children}
         </div>
-        <div className={`d-none d-md-block flex-shrink-0 ${css.width}`}></div>
-    </>);
+    );
 }
 
 

@@ -36,7 +36,7 @@ const renderButtonsList = (items, onClick, isSelected = false) => (
 function CategoriesSelector({ value, onChange }) {
     const categories = useSelector(selectCategories);
     const loading = useSelector(selectLoading);
-    const [buffer, updateBuffer] = useValueBuffer(value, onChange, 1000);
+    const [buffer, updateBuffer] = useValueBuffer(value, onChange, 700);
     const { setShowCategoriesManager } = useContext(context.setters);
 
 

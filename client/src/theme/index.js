@@ -2,7 +2,7 @@
 import './html-scale.module.css';
 import 'bootstrap/dist/css/bootstrap-grid.min.css';
 import './global.css';
-import './print.css';
+import './global.module.css';
 
 import { createMuiTheme } from '@material-ui/core/styles';
 import themeVariables from './variables.module.css';
@@ -50,7 +50,15 @@ const themeConfig = createMuiTheme({
             disabled: themeVariables.colorTextDisabled,
             hint: themeVariables.colorTextHint
         },
-        divider: themeVariables.colorBorder
+
+        divider: themeVariables.colorBorder,
+
+        actions: {
+            active: themeVariables.colorActionActive,
+            hover: themeVariables.colorActionHover,
+            selected: themeVariables.colorActionSelected,
+            focus: themeVariables.colorActionFocus
+        }
     },
     typography: {
         //fontSize: 12,
@@ -77,6 +85,23 @@ const themeConfig = createMuiTheme({
             fontSize: '0.875rem',
             //fontWeight: 300,
             //textTransform: 'uppercase'
+        },
+
+        subtitle1: {
+            fontWeight: 500,
+            fontSize: '1rem',
+            lineHeight: 1.2,
+            letterSpacing: 0
+        },
+        subtitle2: {
+            fontWeight: 500,
+            fontSize: '0.75rem',
+            lineHeight: 1.2,
+            letterSpacing: 0
+        },
+
+        overline: {
+            fontSize: '0.7125rem'
         }
     },
     zIndex: {
@@ -87,7 +112,8 @@ const themeConfig = createMuiTheme({
         modal: parseInt(themeVariables.modal, 10),
         snackbar: parseInt(themeVariables.snackbar, 10),
         tooltip: parseInt(themeVariables.tooltip, 10)
-    }
+    },
+    shadows: [...Array(25).keys()].map(i => themeVariables['shadow'+i])
 });
 
 
@@ -146,13 +172,16 @@ themeConfig.overrides = {
     },
     MuiChip: {
         root: {
-            height: '26px',
-            fontSize: '0.7125rem',
-            fontWeight: 500
+            height: '20px',
+            fontSize: '0.65rem',
+            fontWeight: 500,
+            textTransform: 'uppercase',
+            borderRadius: '3px',
+            cursor: 'inherit'
         },
         label: {
-            paddingLeft: '14px',
-            paddingRight: '14px'
+            paddingLeft: '8px',
+            paddingRight: '8px'
         }
     },
     MuiAlert: {
@@ -183,9 +212,7 @@ themeConfig.overrides = {
     },
     MuiOutlinedInput: {
         root: {
-//            padding: '10px 12px',
-            backgroundColor: '#fff',
-  /*          borderRadius: 'inherit'*/
+            backgroundColor: '#fff'
         },
         adornedStart: {
             paddingLeft: 0
