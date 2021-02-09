@@ -139,21 +139,15 @@ function Wall() {
 
     return (
         <div className={`d-flex no-gutters ${css.layout}`}>
-            <Sidebar>
-                <div className="px-3 py-3 b-b">
-                    <Search
-                        value={filters.searchTerm}
-                        onChange={setSearchTerm}
-                    />
-                </div>
-                <div className="px-3 py-3 b-b">
+            <Sidebar className={css.sidebar}>
+                <div className={`px-2 pt-2 pb-3 ${css.datepicker}`}>
                     <FilterByDate
                         startDate={filters.startDate}
                         endDate={filters.endDate}
                         onChange={setDates}
                     />
                 </div>
-                <div className="px-3 py-3">
+                <div className="px-2 pt-2 pb-3">
                     <CategoriesSelector
                         value={filters.categories}
                         onChange={setCategories}
@@ -161,18 +155,26 @@ function Wall() {
                 </div>
             </Sidebar>
 
-            <div className="flex-grow-1 vertical-scroll">
-                <PostsList posts={data.posts} />
-                <Pagination total={data.total} page={filters.page} onSelect={setPage} />
+            <div className="d-flex flex-column flex-grow-1 b-r ipad-scroll-fix">
+                <div className="flex-shrink-0 py-2 px-3">
+                    <Search
+                        value={filters.searchTerm}
+                        onChange={setSearchTerm}
+                    />
+                </div>
+                <div className="flex-grow-1 vertical-scroll ipad-scroll-fix">
+                    <PostsList posts={data.posts} />
+                    <Pagination total={data.total} page={filters.page} onSelect={setPage} />
+                </div>
             </div>
 
             {postIdMemo && (
-                <div className={`${css.post} ${css.postWidth} vertical-scroll flat-on-print`}>
+                <div className={`${css.post} ${css.postWidth} vertical-scroll ipad-scroll-fix flat-on-print`}>
                     <Post id={postIdMemo} onDelete={fetchData} />
                 </div>
             )}
             {!postIdMemo && (
-                <div className={`flex-shrink-0 ${css.postWidth} p-4 d-none d-xl-block`}>
+                <div className={`flex-shrink-0 ${css.postWidth} p-4 d-none d-xl-flex align-items-center justify-content-center`}>
                     <EmptyData>Выберите пост</EmptyData>
                 </div>
             )}

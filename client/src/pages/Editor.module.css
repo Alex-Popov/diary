@@ -1,24 +1,44 @@
 @value colorBorder from '../theme/variables.module.css';
 @value md from '../theme/variables.module.css';
 @value xl from '../theme/variables.module.css';
-@value height from '../components/Header.module.css';
+@value drawer from '../theme/variables.module.css';
+@value width from '../components/Sidebar.module.css';
+@value size from '../components/Header.module.css';
 
 
-.sidebarLeft,
+.container {}
+.sidebarLeft {}
 .sidebarRight {
-    border-top: 1px solid colorBorder;
+    position: relative;
+    min-height: 200px;
+    overflow: hidden;
+}
+
+.lock {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, .6);
+}
+.alert {
+    color: #fff !important;
 }
 
 @media (min-width: md) {
-    .sidebarLeft {
-        border-top: none;
-        border-right: 1px solid colorBorder;
+    .container {
+        padding-left: width;
     }
-}
+    .sidebarLeft {
+        position: fixed;
+        left: size;
+        top: 0;
+        z-index: drawer;
+        height: 100%;
+        width: width;
 
-@media (min-width: xl) {
-    .sidebarRight {
-        border-top: none;
-        border-left: 1px solid colorBorder;
+        border-right: 1px solid colorBorder;
     }
 }

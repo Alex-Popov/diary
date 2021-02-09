@@ -1,4 +1,8 @@
+.root {
+    font-size: .85rem !important;
+}
+
 .input {
-    padding-top: 14px !important;
-    padding-bottom: 14px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
 }

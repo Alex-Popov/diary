@@ -32,19 +32,19 @@
 
 :global(.b-y),
 :global(.b-t) {
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-top: 1px solid colorBorder;
 }
 :global(.b-y),
 :global(.b-b) {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid colorBorder;
 }
 :global(.b-x),
 :global(.b-l) {
-    border-left: 1px solid rgba(0, 0, 0, 0.12);
+    border-left: 1px solid colorBorder;
 }
 :global(.b-x),
 :global(.b-r) {
-    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    border-right: 1px solid colorBorder;
 }
 
 

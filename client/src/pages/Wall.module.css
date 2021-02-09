@@ -5,6 +5,15 @@
 .layout {
     height: 100%;
 }
+
+.sidebar {
+    background-color: #ca2896;
+    color: #fff;
+}
+.datepicker {
+    background-color: #d82ea0;
+}
+
 .postWidth {
     width: calc(100% - 30% - 320px);
 }

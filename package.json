@@ -1,6 +1,6 @@
 {
   "name": "diary",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "private": true,
   "scripts": {
     "web": "cross-env NODE_PATH=. node bin/web",

@@ -8,7 +8,7 @@ const IconButtonStateful = styled(
 )
 (
     ({ theme, isActive }) => (isActive && {
-        background: [theme.palette.primary.main, '!important'],
+        background: [theme.palette.secondary.main, '!important'],
         color: '#fff'
     })
 );

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 
 import sortBy from 'lodash/sortBy';
 import { useSelector } from 'react-redux';
@@ -6,15 +6,12 @@ import { selectCategories, selectLoading } from '../store/categories';
 import css from './CategoriesSelector.module.css';
 import useValueBuffer from '../hooks/useValueBuffer';
 
-import Divider from '@material-ui/core/Divider';
 import CategoryButton from './CategoryButton';
 import CategoriesLoadingSkeleton from './CategoriesLoadingSkeleton';
 import EmptyData from './EmptyData';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import SettingsIcon from '@material-ui/icons/Settings';
-import {context} from '../context/AppContext';
 
 
 const renderButtonsList = (items, onClick, isSelected = false) => (
@@ -37,7 +34,6 @@ function CategoriesSelector({ value, onChange }) {
     const categories = useSelector(selectCategories);
     const loading = useSelector(selectLoading);
     const [buffer, updateBuffer] = useValueBuffer(value, onChange, 700);
-    const { setShowCategoriesManager } = useContext(context.setters);
 
 
     // lists
@@ -61,9 +57,6 @@ function CategoriesSelector({ value, onChange }) {
             : buffer.filter(i => i !== id)
         );
     };
-    const handleManage = () => {
-        setShowCategoriesManager(true);
-    };
     const handleClear = () => {
         onChange([]);
     };
@@ -71,15 +64,8 @@ function CategoriesSelector({ value, onChange }) {
 
 
     return (<>
-        <div className="d-flex align-items-center justify-content-between mb-2">
-            <IconButton
-                color="inherit"
-                onClick={handleManage}
-                size="small"
-            >
-                <SettingsIcon />
-            </IconButton>
-
+        <div className="d-flex align-items-center justify-content-between mb-1">
+            <div className="icon-placeholder_def-sm"></div>
             <div className="flex-grow-1 text-align_center">
                 <Typography variant="h4">Категории</Typography>
             </div>
@@ -103,7 +89,7 @@ function CategoriesSelector({ value, onChange }) {
                 {!hasSelected && <EmptyData>Ничего не выбрано</EmptyData>}
                 {hasSelected && renderButtonsList(selectedCategories, handleClick(false), true)}
             </div>
-            <Divider className="my-3" />
+            <div className={css.separator} />
             <div className={css.selected}>
                 {allSelected && <EmptyData>Все выбрано</EmptyData>}
                 {!allSelected && renderButtonsList(availableCategories, handleClick(true))}

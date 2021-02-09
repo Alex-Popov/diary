@@ -2,10 +2,15 @@ import React, { useState} from 'react';
 import API from '../core/api';
 import { useDispatch } from 'react-redux';
 import { setSession } from '../store/auth';
+import { showLoading, hideLoading } from '../store/loading';
 
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import { showLoading, hideLoading } from '../store/loading';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FaceIcon from '@material-ui/icons/Face';
+import LockIcon from '@material-ui/icons/Lock';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 
@@ -28,26 +33,31 @@ function LoginForm() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <TextField
-                label="Username"
+            <OutlinedInput
+                placeholder="Логин"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
                 required
-
-                variant="outlined"
-                margin="normal"
                 fullWidth
+                startAdornment={
+                    <InputAdornment position="start">
+                        <FaceIcon fontSize="small" />
+                    </InputAdornment>
+                }
             />
-            <TextField
+            <OutlinedInput
                 type="password"
-                label="Password"
+                placeholder="Пароль"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 required
-
-                variant="outlined"
-                margin="normal"
                 fullWidth
+                startAdornment={
+                    <InputAdornment position="start">
+                        <LockIcon fontSize="small" />
+                    </InputAdornment>
+                }
+                className="mt-3"
             />
 
             <Button
@@ -56,7 +66,7 @@ function LoginForm() {
                 variant="contained"
                 color="primary"
                 disabled={disableSave}
-                className="mt-2"
+                className="mt-4"
             >
                 Login
             </Button>

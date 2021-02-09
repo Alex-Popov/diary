@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import useValueBuffer from '../hooks/useValueBuffer';
 
-const MIN_LENGTH = 3;
+const MIN_LENGTH = 2;
 
 
 function Search({ value, onChange }) {
@@ -30,11 +30,12 @@ function Search({ value, onChange }) {
             inputProps={{
                 className: css.input
             }}
+            className={css.root}
             placeholder="Поиск"
             endAdornment={
                 <InputAdornment position="end">
                     {buffer.length > 0 && (
-                        <IconButton onClick={() => onChange('')}>
+                        <IconButton onClick={() => onChange('')} edge="end">
                             <CloseIcon fontSize="small" />
                         </IconButton>
                     )}

@@ -101,7 +101,8 @@ const themeConfig = createMuiTheme({
         },
 
         overline: {
-            fontSize: '0.7125rem'
+            fontSize: '0.7125rem',
+            opacity: .6
         }
     },
     zIndex: {
@@ -165,11 +166,7 @@ themeConfig.overrides = {
             }
         }
     },
-    MuiIconButton: {
-        sizeSmall: {
-            padding: 8
-        }
-    },
+
     MuiChip: {
         root: {
             height: '20px',
@@ -210,15 +207,22 @@ themeConfig.overrides = {
             marginRight: '1rem'
         }
     },
+
+
     MuiOutlinedInput: {
         root: {
             backgroundColor: '#fff'
+        }
+    },
+    MuiNativeSelect: {
+        select: {
+            color: 'inherit',
+            '&:focus': {
+                color: '#000'
+            }
         },
-        adornedStart: {
-            paddingLeft: 0
-        },
-        adornedEnd: {
-            paddingRight: 0
+        icon: {
+            color: 'inherit'
         }
     },
 /*    MuiInputAdornment: {
@@ -229,6 +233,7 @@ themeConfig.overrides = {
             marginLeft: 0
         }
     },*/
+
     MuiButton: {
         root: {
             minWidth: 'none'
@@ -239,7 +244,18 @@ themeConfig.overrides = {
         outlinedSizeLarge: {
             padding: '12px 22px'
         }
-    }
+    },
+    MuiIconButton: {
+        root: {
+            '&$disabled': {
+                color: 'inherit',
+                opacity: .2
+            }
+        },
+        sizeSmall: {
+            padding: 8
+        }
+    },
 };
 
 

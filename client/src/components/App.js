@@ -37,7 +37,7 @@ function App() {
         <Router>
             <Header />
 
-            <div className={css.layout}>
+            <div className={`ipad-scroll-fix ${css.layout}`}>
                 <Switch>
                     <Route path="/profile" exact component={Profile} />
                     <Route path={['/new', '/edit/:id']} exact component={Editor} />

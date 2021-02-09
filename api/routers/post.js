@@ -63,12 +63,12 @@ router.get('/getAllByFilter', mustAuthenticated, async (req, res) => {
         postWhere[Op.or] = [
             {
                 title: {
-                    [Op.substring]: filter.searchTerm
+                    [Op.iLike]: `%${filter.searchTerm}%`
                 }
             },
             {
                 body: {
-                    [Op.substring]: filter.searchTerm
+                    [Op.iLike]: `%${filter.searchTerm}%`
                 }
             }
         ];

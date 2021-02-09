@@ -1,3 +1,6 @@
+@value colorBackgroundDefault from '../theme/variables.module.css';
+@value colorBorder from '../theme/variables.module.css';
+@value md from '../theme/variables.module.css';
 
 /* preview */
 
@@ -20,8 +23,16 @@
 /* palette buttons */
 
 .paletteButtonsSection {
-    background-color: #f0f1f5;
+    border-top: 1px solid colorBorder;
+    background-color: colorBackgroundDefault;
 }
 .button {
     min-height: 2rem;
+}
+
+@media (min-width: md) {
+    .paletteButtonsSection {
+        border-top: none;
+        border-left: 1px solid colorBorder;
+    }
 }

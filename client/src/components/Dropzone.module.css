@@ -11,7 +11,7 @@
     border-radius: 4px;
 
     background-color: #f3f3f3;
-    color: colorTextSecondary;
+/*    color: colorTextSecondary;*/
     outline: none;
 }
 
@@ -46,9 +46,9 @@
     border: 5px dashed rgba(255, 255, 255, .6);
 }
 .fullscreen .label {
-    padding: 6rem;
+    padding: 5rem 7rem;
 
-    max-width: 50%;
+/*    max-width: 50%;*/
     position: relative;
     z-index: -1;
     font-size: 2rem;

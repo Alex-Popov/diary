@@ -70,7 +70,7 @@ function FilterByDate({
 
 
     return (<>
-        <div className="d-flex align-items-center justify-content-between mb-2">
+        <div className="d-flex align-items-center justify-content-between mb-1">
             <IconButtonStateful
                 color="inherit"
                 onClick={handleToggleRange}

@@ -3,11 +3,11 @@ import range from 'lodash/range';
 
 import NativeSelect from '@material-ui/core/NativeSelect';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import './DatePicker.css';
+import css from './DatePicker.module.css';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
 
@@ -62,10 +62,14 @@ function DatePicker(props) {
                             <ArrowBackIosIcon fontSize="small" />
                         </IconButton>
 
-                        <Typography variant="h5" className="flex-grow-1">{MONTHS[date.getMonth()]}</Typography>
+                        <div className={`${css.month} flex-grow-1`}>{MONTHS[date.getMonth()]}</div>
                         <NativeSelect
                             value={date.getFullYear()}
                             onChange={({ target: { value } }) => changeYear(value)}
+                            className={css.year}
+                            inputProps={{
+                                className: css.select
+                            }}
                         >
                             {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
                         </NativeSelect>

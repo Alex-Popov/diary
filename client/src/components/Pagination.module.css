@@ -1,4 +1,4 @@
-@value colorPrimary from '../theme/variables.module.css';
+@value colorSecondary from '../theme/variables.module.css';
 
 .page {
     margin: 0 2px !important;
@@ -10,6 +10,6 @@
 
 .selected {
     color: #fff !important;
-    background-color: colorPrimary !important;
-    border-color: colorPrimary !important;
+    background-color: colorSecondary !important;
+    border-color: colorSecondary !important;
 }

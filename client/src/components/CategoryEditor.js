@@ -129,7 +129,7 @@ function CategoryEditor() {
 
             <DialogContent dividers>
                 <div className="row no-gutters">
-                    <div className="col-12 col-md-4 pt-2 pb-4 px-4">
+                    <div className="col-12 col-md-4 pt-2 pt-md-1 pb-3 px-3">
                         <TextField
                             label="Имя"
                             value={name}
@@ -157,13 +157,13 @@ function CategoryEditor() {
                             <CategoryChip color={color} label={name.trim() || 'Имя категории'} className="mt-3" />
                         </div>
                     </div>
-                    <div className="col-12 col-md-4 pr-4 pl-4 pl-md-0 pb-3 pt-2 pt-md-4 px-4">
+                    <div className="col-12 col-md-4 pr-3 pl-3 pl-md-0 pb-3 pt-2 pt-md-3 px-3">
                         <HexColorPicker color={color} onChange={setColor} />
                         <div className="mt-3">
                             <Palette onSelect={setColor} />
                         </div>
                     </div>
-                    <div className={`col-12 col-md-4 py-4 px-4 ${css.paletteButtonsSection}`}>
+                    <div className={`col-12 col-md-4 py-3 px-3 ${css.paletteButtonsSection}`}>
                         <CategoryButtonsList items={categories} onClick={setColor} currentId={id} />
                     </div>
                 </div>

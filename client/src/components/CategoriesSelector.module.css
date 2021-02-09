@@ -4,3 +4,11 @@
 .selected .list {
     opacity: .6;
 }
+
+.separator {
+    margin: .8rem 2rem;
+    height: 0;
+    overflow: hidden;
+    border-top: 2px solid currentColor;
+    opacity: .2;
+}

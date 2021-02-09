@@ -82,7 +82,7 @@ module.exports = Object.freeze({
     ENTITY_USER: 'user',
     ENTITY_ATTACHMENT: 'attachment',
 
-    PAGE_SIZE: 10,
+    PAGE_SIZE: 15,
 
     URL_ATTACHMENT_FILE : '/attachment/',
 

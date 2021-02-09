@@ -1,0 +1,43 @@
+@value shadow2 from '../theme/variables.module.css';
+
+.container {
+    background: #452665;
+    background: url('/img/login-bg.png') no-repeat 50% 50%, linear-gradient(30deg, #452665 10%, #752067 90%);
+}
+
+.logo {
+    position: relative;
+    width: 250px;
+    height: 200px;
+    margin-top: -20%;
+    margin-bottom: 50px;
+
+    font-size: 100px;
+    color: #fff;
+}
+.logo svg {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-55%);
+}
+.logo img {
+    position: absolute;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-48%);
+
+    display: block;
+    width: 232px;
+    height: 120px;
+}
+
+
+.card {
+    padding: 20px;
+    max-width: 360px;
+    /*background-color: #4a2154;*/
+    background-color: #a71297;
+    border-radius: 8px;
+    box-shadow: shadow2;
+}

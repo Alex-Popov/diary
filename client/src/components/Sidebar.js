@@ -38,11 +38,12 @@ function Sidebar(props) {
     return (
         <div className={[
             css.sidebar,
-            'vertical-scroll',
+            props.className || '',
+            'vertical-scroll ipad-scroll-fix',
             open ? css.open : ''
         ].join(' ')}>
             <div className="d-md-none d-flex flex-shrink-0 justify-content-end align-items-center p-2">
-                <IconButton onClick={() => setOpen(false)}>
+                <IconButton color="inherit" onClick={() => setOpen(false)}>
                     <CheckIcon />
                 </IconButton>
             </div>

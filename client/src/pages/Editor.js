@@ -8,7 +8,6 @@ import API from '../core/api';
 import { ENTITY_POST } from '../const';
 import { quillDecodeIndent, quillEncodeIndent } from '../utils/quill-fix-indent.ts';
 
-import sidebarCss from '../components/Sidebar.module.css';
 import css from './Editor.module.css';
 
 import DatePicker from '../components/DatePicker';
@@ -18,13 +17,13 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import RichText from '../components/RichText';
 import Alert from '@material-ui/lab/Alert';
-import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
+import LockIcon from '@material-ui/icons/Lock';
 import Attachments from '../components/Attachments';
 
 
 
 const renderFormActions = (id, onSubmit, disableSave) => (
-    <div className="d-flex justify-content-between justify-content-md-end align-items-center text-align_right px-4 py-3">
+    <div className="d-flex justify-content-between justify-content-md-end align-items-center text-align_right px-3 py-2">
         <Button
             component={Link}
             to={id ? `/post/${id}` : '/'}
@@ -116,12 +115,12 @@ function Editor() {
 
 
 
-    return (<>
-        {renderFormActions(id, handleSubmit, disableSave)}
+    return (
+        <div className={css.container}>
+            {renderFormActions(id, handleSubmit, disableSave)}
 
-        <div className="d-block d-md-flex b-y">
-            <div className="flex-grow-1 order-0 order-md-1 d-block d-xl-flex no-gutters">
-                <div className="flex-grow-1 px-4 pb-4 pt-2 pt-xl-1">
+            <div className="d-flex flex-column flex-xl-row no-gutters b-y">
+                <div className="flex-grow-1 px-3 pt-2 pb-3 pt-xl-1">
                     <TextField
                         label="Заголовок"
                         value={title}
@@ -142,7 +141,7 @@ function Editor() {
                 </div>
 
                 <div className={`col-12 col-xl-4 ${css.sidebarRight}`}>
-                    <div className="px-4 py-3">
+                    <div className="px-3 py-3">
                         <Typography variant="h4" className="mb-3 text-align_center">Вложения</Typography>
 
                         {id
@@ -150,32 +149,38 @@ function Editor() {
                                 parentEntity={ENTITY_POST}
                                 parentId={id}
                             />
-                            : <Alert
-                                severity="warning"
-                                variant="outlined"
-                                icon={<InsertDriveFileIcon fontSize="large" />}
-                                className="flex-column align-items-center text-align_center"
-                            >Чтобы добавлять вложения, сначала сохраните пост</Alert>
+                            :
+                            <div className={`${css.lock} p-4 d-flex align-items-center justify-content-center`}>
+                                <Alert
+                                    severity="warning"
+                                    variant="outlined"
+                                    icon={<LockIcon fontSize="large" />}
+                                    className={`${css.alert} flex-column align-items-center text-align_center`}
+                                >
+                                    Чтобы добавлять вложения, сначала сохраните пост
+                                </Alert>
+                            </div>
                         }
                     </div>
                 </div>
-            </div>
 
-            <div className={`order-1 order-md-0 flex-shrink-0 ${css.sidebarLeft} ${sidebarCss.width}`}>
-                <div className="px-3 py-3 b-b">
-                    <Typography variant="h4" className="mb-2 text-align_center">Дата</Typography>
-                    <div className="container_max-sm container_center">
-                        <DatePicker selected={date} onChange={setDate} />
+                <div className={`${css.sidebarLeft} vertical-scroll ipad-scroll-fix`}>
+                    <div className="px-2 pt-2 pb-3 b-b">
+                        <Typography variant="h4" className="mb-1 text-align_center">Дата</Typography>
+                        <div className="container_max-sm container_center">
+                            <DatePicker selected={date} onChange={setDate} />
+                        </div>
+                    </div>
+                    <div className="px-2 pt-2 pb-3">
+                        <CategoriesSelector value={categories} onChange={setCategories} />
                     </div>
                 </div>
-                <div className="px-3 pt-3 pb-4">
-                    <CategoriesSelector value={categories} onChange={setCategories} />
-                </div>
-            </div>
-        </div>
 
-        {renderFormActions(id, handleSubmit, disableSave)}
-    </>);
+            </div>
+
+            {renderFormActions(id, handleSubmit, disableSave)}
+        </div>
+    );
 }
 
 export default Editor;
